@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164e37">
+  <title>HOLYGATE Admin — Product Catalogue</title>
+  <link rel="icon" href="/assets/brand-logo.png">
+  <link rel="stylesheet" href="/admin.css">
+  <script src="/admin.js" defer></script>
+</head>
+<body class="admin-body">
+  <header class="admin-topbar">
+    <a class="admin-brand" href="/">
+      <img src="/assets/brand-logo.png" alt="HOLYGATE logo">
+      <span><b>HOLYGATE</b><small>STOREFRONT ADMIN</small></span>
+    </a>
+    <div class="admin-topbar-right">
+      <div class="admin-user-pill">
+        <span class="status-dot"></span>
+        <span id="admin-user-display">Catalogue manager</span>
+      </div>
+      <button id="nav-logout-btn" class="admin-ghost-sm" type="button" style="display:none;" title="Sign out of admin session">Sign out ↗</button>
+      <a href="/" class="store-link" target="_blank" rel="noopener">View storefront ↗</a>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section id="login-view" class="login-wrap">
+      <div class="login-art">
+        <div class="login-orbit orbit-a"></div>
+        <div class="login-orbit orbit-b"></div>
+        <div class="login-copy">
+          <p class="admin-eyebrow">HOLYGATE / BACK OFFICE</p>
+          <h1>Your pantry,<br><em>your catalogue.</em></h1>
+          <p>Manage product listings, update details and connect each product to its Amazon page.</p>
+          <div class="login-feature"><span>01</span><div><b>Product management</b><small>Add, edit, publish or hide catalogue items.</small></div></div>
+          <div class="login-feature"><span>02</span><div><b>Amazon import</b><small>Import supported details when Creators API is connected.</small></div></div>
+        </div>
+        <div class="login-bag-badge">G<br><b>HOLYGATE</b></div>
+      </div>
+      <div class="login-card">
+        <div class="login-card-heading">
+          <span class="admin-logo-mini">G</span>
+          <p class="admin-eyebrow">WELCOME BACK</p>
+          <h2>Admin sign in</h2>
+          <p>Sign in to edit the public storefront catalogue.</p>
+        </div>
+        <form id="login-form">
+          <label for="login-username">Admin email</label>
+          <input id="login-username" name="username" type="email" autocomplete="username" required placeholder="admin@holygate.in">
+          <label for="login-password">Password</label>
+          <div class="password-field-wrap">
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password">
+            <button type="button" id="toggle-pw-btn" class="toggle-pw-btn" aria-label="Toggle password visibility" title="Show/hide password">
+              <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <button class="admin-primary full-width" type="submit">Sign in <span>↗</span></button>
+          <p class="form-error" id="login-error" role="alert"></p>
+        </form>
+        <div class="demo-credential-note" id="demo-creds-btn" role="button" tabindex="0" title="Click to fill test credentials">
+          <div class="demo-cred-header">
+            <b>⚡ Local test account</b>
+            <span class="demo-fill-pill">Click to Autofill</span>
+          </div>
+          <span>Email: <code>admin@holygate.in</code> · Click to load demo credentials instantly.</span>
+        </div>
+        <a class="back-store" href="/">← Back to storefront</a>
+      </div>
+    </section>
+
+    <section id="dashboard-view" hidden>
+      <div class="dashboard-heading">
+        <div>
+          <p class="admin-eyebrow">YOUR STORE / PRODUCTS</p>
+          <h1>Catalogue <em>control.</em></h1>
+          <p>Every product published here appears on the HOLYGATE storefront.</p>
+        </div>
+        <button id="logout-button" class="admin-ghost">Sign out ↗</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>ALL PRODUCTS</span>
+          <strong id="stat-total">0</strong>
+          <small>Saved in the catalogue</small>
+        </div>
+        <div class="stat-card">
+          <span>LIVE ON WEBSITE</span>
+          <strong id="stat-live">0</strong>
+          <small>Published products</small>
+        </div>
+        <div class="stat-card">
+          <span>AMAZON CONNECTED</span>
+          <strong id="stat-amazon">0</strong>
+          <small>Listings with Amazon links</small>
+        </div>
+        <div class="stat-card">
+          <span>FEATURED PICKS</span>
+          <strong id="stat-featured">0</strong>
+          <small>Starred on homepage</small>
+        </div>
+      </div>
+      <section class="supabase-banner" id="supabase-banner">
+        <div class="supabase-banner-left">
+          <div class="supabase-badge fallback" id="supabase-status-badge">
+            <span class="supabase-status-dot"></span>
+            <span id="supabase-status-text">Local Storage Mode</span>
+          </div>
+          <div class="supabase-meta">
+            <strong id="supabase-engine-title">Storage Engine: Local products.json</strong>
+            <span id="supabase-engine-desc">Configure SUPABASE_URL &amp; SUPABASE_KEY in .env to enable Cloud PostgreSQL &amp; CDN Storage.</span>
+          </div>
+        </div>
+        <div class="supabase-banner-right">
+          <button type="button" class="btn-update-pricing-banner" id="btn-update-pricing-banner" title="Fetch latest Amazon prices for all products in 1 click">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span>⚡ Update Pricing</span>
+          </button>
+          <button type="button" class="btn-sync-supabase" id="btn-sync-supabase" title="Upload local products to Supabase">
+            <span>☁ Sync to Supabase</span>
+          </button>
+        </div>
+      </section>
+      <div class="admin-content-grid">
+        <section class="admin-panel editor-panel" aria-labelledby="editor-title">
+          <div class="panel-title-row">
+            <div>
+              <p class="admin-eyebrow">PRODUCT EDITOR</p>
+              <h2 id="editor-title">Add a product</h2>
+            </div>
+            <span class="panel-index">01</span>
+          </div>
+          <div class="import-box">
+            <div class="import-box-top">
+              <div class="import-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div class="import-copy">
+                <b>1-Click Amazon Product Importer</b>
+                <p>Select category, paste Amazon product link, and copy title, images, prices &amp; description automatically.</p>
+              </div>
+            </div>
+            <div class="import-inputs-grid">
+              <div class="import-subfield">
+                <label class="field-label" for="import-category">1. Select Category <span>*</span></label>
+                <select id="import-category">
+                  <option value="Pulses & Lentils">Pulses & Lentils</option>
+                  <option value="Atta & Flour">Atta & Flour</option>
+                  <option value="Grains">Grains (Rice & More)</option>
+                  <option value="Sugar">Sugar</option>
+                  <option value="Seeds">Seeds</option>
+                  <option value="Others">Others</option>
+                  <option value="Pantry Staples">Pantry Staples</option>
+                </select>
+              </div>
+              <div class="import-subfield">
+                <label class="field-label" for="amazon-url">2. Amazon Product URL (Amazon.in) <span>*</span></label>
+                <input id="amazon-url" type="url" placeholder="https://www.amazon.in/dp/B074N7VHV4 or https://amzn.in/...">
+              </div>
+            </div>
+            <div class="quick-samples-row">
+              <small>Try a sample product:</small>
+              <button type="button" class="sample-link-btn" data-url="https://www.amazon.in/dp/B074N7VHV4" data-cat="Pulses & Lentils">Tata Sampann Toor Dal</button>
+              <button type="button" class="sample-link-btn" data-url="https://www.amazon.in/dp/B00TN78J9W" data-cat="Atta & Flour">Aashirvaad Chakki Atta</button>
+              <button type="button" class="sample-link-btn" data-url="https://www.amazon.in/dp/B072LXJ7Y6" data-cat="Sugar">Trust Classic Sulphur Free Sugar</button>
+            </div>
+            <button class="admin-primary import-main-btn" type="button" id="import-button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Copy Everything from Amazon</span>
+            </button>
+            <div id="import-status" class="inline-status" role="status"></div>
+          </div>
+          <form id="product-form">
+            <input id="product-id" type="hidden">
+            <input id="amazon-source" type="hidden" value="false">
+            <input id="asin" type="hidden">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="product-title">Product title <span>*</span></label>
+                <input id="product-title" required maxlength="180" placeholder="e.g. HOLYGATE Premium Toor Dal">
+              </div>
+              <div class="field">
+                <label for="product-category">Category</label>
+                <select id="product-category">
+                  <option>Pulses & Lentils</option>
+                  <option>Atta & Flour</option>
+                  <option>Grains</option>
+                  <option>Sugar</option>
+                  <option>Seeds</option>
+                  <option>Others</option>
+                  <option>Pantry Staples</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="product-brand">Brand</label>
+                <input id="product-brand" placeholder="HOLYGATE">
+              </div>
+              <div class="field">
+                <label for="product-pack-size">Pack size</label>
+                <input id="product-pack-size" placeholder="e.g. 1 kg">
+              </div>
+              <div class="field">
+                <label for="product-price">Offer price (₹) <small>optional</small></label>
+                <input id="product-price" inputmode="decimal" placeholder="Leave blank to show 'Check price'">
+              </div>
+              <div class="field">
+                <label for="product-rating">Star Rating <small>optional (e.g. 4.8)</small></label>
+                <input id="product-rating" placeholder="4.8">
+              </div>
+              <div class="field">
+                <label for="product-rating-count">Review Count <small>optional (e.g. 1,240+)</small></label>
+                <input id="product-rating-count" placeholder="1,240+">
+              </div>
+              <div class="field full">
+                <label for="product-image">Main image URL</label>
+                <input id="product-image" type="url" placeholder="Imported automatically from Amazon, or paste an image URL">
+                <div class="image-preview-wrap">
+                  <div id="image-preview" class="image-preview"><span>Image preview</span></div>
+                  <div class="gallery-preview-container">
+                    <small>Gallery thumbnails (click to select as primary):</small>
+                    <div id="gallery-thumbs" class="gallery-thumbs-row"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="field full">
+                <label for="product-gallery">Additional image URLs <small>one URL per line</small></label>
+                <textarea id="product-gallery" rows="3" placeholder="https://…/image-2.jpg&#10;https://…/image-3.jpg"></textarea>
+              </div>
+              <div class="field full">
+                <label for="product-description">Description / key features</label>
+                <textarea id="product-description" rows="5" placeholder="Enter product description or one feature per line"></textarea>
+              </div>
+              <div class="field full checkbox-row">
+                <label class="check-label"><input id="product-featured" type="checkbox"> <span>Feature this product on the homepage</span></label>
+                <label class="check-label"><input id="product-published" type="checkbox" checked> <span>Publish on storefront</span></label>
+                <label class="check-label"><input id="product-show-price" type="checkbox"> <span>Show offer price on product card</span></label>
+              </div>
+            </div>
+            <div class="editor-actions">
+              <button class="admin-primary" type="submit" id="save-button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Publish Listing to Website <span>↗</span>
+              </button>
+              <button class="admin-ghost" type="button" id="reset-button">Clear form</button>
+              <span id="save-status" class="save-status" role="status"></span>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-panel catalogue-panel" aria-labelledby="catalogue-title">
+          <div class="panel-title-row">
+            <div>
+              <p class="admin-eyebrow">LIVE CATALOGUE</p>
+              <h2 id="catalogue-title">Your products</h2>
+            </div>
+            <span class="panel-index">02</span>
+          </div>
+          <div class="catalogue-tools">
+            <label class="catalogue-search">
+              <span>⌕</span>
+              <input id="catalogue-search" type="search" placeholder="Search products…" aria-label="Search catalogue">
+            </label>
+            <select id="catalogue-status" aria-label="Filter by status">
+              <option value="all">All products</option>
+              <option value="published">Published</option>
+              <option value="draft">Drafts</option>
+              <option value="amazon">Amazon-linked</option>
+              <option value="featured">★ Featured Picks (Homepage)</option>
+            </select>
+            <button type="button" class="btn-update-pricing" id="btn-update-pricing" title="Fetch latest Amazon prices for all products in 1 click">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+              <span>Update Pricing</span>
+            </button>
+          </div>
+          <div id="catalogue-list" class="catalogue-list">
+            <div class="catalogue-empty">Loading products…</div>
+          </div>
+          <div class="catalogue-footer">
+            <span id="catalogue-count">0 products</span>
+            <span>Changes save to your database &amp; data file.</span>
+          </div>
+        </section>
+      </div>
+      <section class="api-note">
+        <div class="api-note-icon">✓</div>
+        <div>
+          <b>Official Brand Store &amp; Amazon Sync</b>
+          <p>You are managing the official HOLYGATE manufacturer catalogue. Product pricing and details synchronize with your Amazon brand listings. Click "Update Pricing" above anytime to instantly pull the latest rates from your Amazon store.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+  <div id="admin-toast" class="admin-toast" role="status" aria-live="polite"></div>
+  <div id="pricing-modal" class="pricing-modal" hidden>
+    <div class="pricing-modal-backdrop" id="pricing-modal-backdrop"></div>
+    <div class="pricing-modal-card">
+      <div class="pricing-modal-header">
+        <div class="pricing-modal-title">
+          <span class="pricing-modal-icon">⚡</span>
+          <div>
+            <h3>Amazon Pricing Update</h3>
+            <p id="pricing-modal-sub">Summary of updated product prices</p>
+          </div>
+        </div>
+        <button type="button" class="pricing-modal-close" id="pricing-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div id="pricing-modal-body" class="pricing-modal-body"></div>
+      <div class="pricing-modal-footer">
+        <button type="button" class="admin-primary" id="pricing-modal-ok">Done</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

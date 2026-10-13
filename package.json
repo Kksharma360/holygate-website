@@ -1,0 +1,8 @@
+{
+  "name": "holygate-grocery-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HOLYGATE grocery storefront with admin product management and Amazon Creators API import",
+  "scripts": { "start": "node server.js", "dev": "node server.js" },
+  "engines": { "node": ">=20" }
+}
