@@ -60,9 +60,9 @@
   }
   function productCard(product) {
     const title = escapeHtml(product.title || 'HOLYGATE Product');
-    const productUrl = `/product.html?id=${encodeURIComponent(product.id)}`;
+    const productUrl = `./product.html?id=${encodeURIComponent(product.id)}`;
     const image = String(product.image || '');
-    const imageBlock = /^https:\/\//i.test(image) || image.startsWith('/assets/')
+    const imageBlock = /^https:\/\//i.test(image) || image.startsWith('assets/') || image.startsWith('./assets/') || image.startsWith('/assets/')
       ? `<img src="${escapeHtml(image)}" alt="${title}" loading="lazy" referrerpolicy="no-referrer">`
       : productArt(product);
     const featured = product.featured
@@ -96,7 +96,7 @@
 
   function openProductDetails(product) {
     const modal = $('#product-modal');
-    const gallery = [...new Set([product.image, ...(Array.isArray(product.gallery) ? product.gallery : [])].filter(src => /^https:\/\//i.test(String(src || '')) || String(src || '').startsWith('/assets/')))];
+    const gallery = [...new Set([product.image, ...(Array.isArray(product.gallery) ? product.gallery : [])].filter(src => /^https:\/\//i.test(String(src || '')) || String(src || '').includes('assets/')))];
     const primary = gallery[0] || '';
     const mainImage = primary
       ? `<img class="modal-main-img" src="${escapeHtml(primary)}" alt="${escapeHtml(product.title)}" referrerpolicy="no-referrer">`
@@ -163,14 +163,22 @@
     if (!productGrid) return;
     try {
       const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('Could not load products');
+      if (!response.ok) throw new Error('API products fetch failed');
       const data = await response.json();
       allProducts = Array.isArray(data.products) ? data.products : [];
-      updateDisclosures();
-      renderProducts();
     } catch (error) {
-      productGrid.innerHTML = '<div class="loading-card">The storefront could not connect to its product catalogue. Start the server with <code>npm start</code> and refresh this page.</div>';
+      try {
+        const fallbackRes = await fetch('./data/products.json');
+        if (!fallbackRes.ok) throw new Error('Fallback products.json fetch failed');
+        const data = await fallbackRes.json();
+        allProducts = Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : []);
+      } catch (err) {
+        productGrid.innerHTML = '<div class="loading-card">The storefront could not connect to its product catalogue.</div>';
+        return;
+      }
     }
+    updateDisclosures();
+    renderProducts();
   }
 
   $('#search-form')?.addEventListener('submit', event => {

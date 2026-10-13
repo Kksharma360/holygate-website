@@ -1,0 +1,621 @@
+/* ===================================================
+   HOLYGATE Product Detail Page (PDP) Stylesheet
+   =================================================== */
+
+.product-page-body {
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* Breadcrumb */
+.pdp-breadcrumb-wrap {
+  background: #f7f5ed;
+  border-bottom: 1px solid #e8ebe1;
+  padding: 12px 0;
+  font-size: 11px;
+}
+.pdp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  color: #7a8475;
+}
+.pdp-breadcrumb a {
+  color: #556251;
+  font-weight: 500;
+  transition: color .2s;
+}
+.pdp-breadcrumb a:hover {
+  color: var(--forest);
+}
+.pdp-breadcrumb .sep {
+  color: #adb5a6;
+  font-size: 10px;
+}
+.pdp-breadcrumb .current {
+  color: var(--forest);
+  font-weight: 600;
+  max-width: 420px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Main Layout Grid */
+.pdp-main-section {
+  padding: 36px 0 60px;
+}
+.pdp-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) minmax(360px, 1.25fr) minmax(290px, .85fr);
+  gap: 36px;
+  align-items: start;
+}
+
+/* Column 1: Gallery */
+.pdp-gallery-col {
+  display: flex;
+  gap: 16px;
+  position: sticky;
+  top: 105px;
+}
+.pdp-thumbs-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.pdp-thumb-btn {
+  width: 58px;
+  height: 58px;
+  border: 1.5px solid #dce1d4;
+  border-radius: 6px;
+  background: #fff;
+  padding: 3px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pdp-thumb-btn:hover {
+  border-color: var(--forest);
+  transform: scale(1.05);
+}
+.pdp-thumb-btn.is-active {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 2px rgba(22, 78, 55, 0.25);
+}
+.pdp-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pdp-hero-image-box {
+  flex: 1;
+  position: relative;
+  min-height: 440px;
+  height: 480px;
+  background: linear-gradient(145deg, #f7f5ed 0%, #fffdf8 100%);
+  border: 1px solid #e3e6db;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(22, 78, 55, 0.05);
+}
+.pdp-hero-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 14px 18px rgba(22, 78, 55, 0.12));
+  transition: transform .3s ease;
+}
+.pdp-hero-image-box:hover .pdp-hero-img {
+  transform: scale(1.04);
+}
+.pdp-badge-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: #164e37;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 5px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Column 2: Info & Description */
+.pdp-info-col {
+  display: flex;
+  flex-direction: column;
+}
+.pdp-category-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin-bottom: 8px;
+}
+.pdp-title {
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: #0d3625;
+  margin: 0 0 12px;
+  letter-spacing: -.02em;
+}
+.pdp-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e8ece2;
+  font-size: 12px;
+}
+.pdp-brand-name {
+  color: var(--forest);
+  font-weight: 700;
+}
+.pdp-rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fbf5e6;
+  border: 1px solid #fae8be;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8c5d17;
+}
+.pdp-stars {
+  color: #e69500;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* Price block */
+.pdp-price-box {
+  background: #fbf9f2;
+  border: 1px solid #ebece1;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+}
+.pdp-price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.pdp-currency {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--forest);
+}
+.pdp-price-number {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--forest);
+  line-height: 1;
+}
+.pdp-tax-note {
+  font-size: 11px;
+  color: #798374;
+  margin: 4px 0 0;
+}
+.pdp-prime-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a4f36;
+}
+
+/* Highlights */
+.pdp-highlights-box {
+  margin-bottom: 24px;
+}
+.pdp-highlights-box h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--forest);
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+.pdp-highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.pdp-highlights-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #384638;
+}
+.pdp-highlights-list li:before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: var(--forest);
+  font-size: 11px;
+}
+
+/* Quick specs overview */
+.pdp-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background: #f7f6ef;
+  border: 1px solid #e7ebe0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.pdp-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pdp-spec-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #7b8577;
+  font-weight: 600;
+}
+.pdp-spec-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+/* Column 3: Amazon Buy Box */
+.pdp-buybox-col {
+  position: sticky;
+  top: 105px;
+}
+.pdp-buybox-card {
+  background: #ffffff;
+  border: 1.5px solid #d9e0d1;
+  border-radius: 12px;
+  padding: 24px 22px;
+  box-shadow: 0 14px 40px rgba(22, 78, 55, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pdp-buybox-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--forest);
+}
+.pdp-buybox-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #1e7040;
+  font-size: 12px;
+  font-weight: 700;
+}
+.pdp-stock-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25a250;
+}
+.pdp-buybox-desc {
+  font-size: 11px;
+  color: #657161;
+  line-height: 1.6;
+}
+
+/* High-Converting Amazon Buy Button */
+.btn-amazon-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ff9900;
+  color: #111827;
+  min-height: 50px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  border: 1.5px solid #e68a00;
+  box-shadow: 0 6px 18px rgba(255, 153, 0, 0.32);
+  transition: all .25s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-amazon-primary:hover {
+  background: #f08c00;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(255, 153, 0, 0.45);
+}
+.btn-amazon-primary svg {
+  flex-shrink: 0;
+}
+
+.btn-amazon-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  color: var(--forest);
+  border: 1.5px solid var(--forest);
+  min-height: 44px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all .2s;
+  text-decoration: none;
+}
+.btn-amazon-outline:hover {
+  background: var(--forest);
+  color: #fff;
+}
+
+/* Trust Perks List */
+.pdp-trust-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #eeeee7;
+  font-size: 10.5px;
+  color: #6b7666;
+}
+.pdp-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.pdp-trust-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #edf3e8;
+  color: var(--forest);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Extended Description & Details Sections */
+.pdp-extended-section {
+  padding: 48px 0;
+  background: #fcfbf6;
+  border-top: 1px solid #e7ebe0;
+}
+.pdp-desc-card {
+  background: #fff;
+  border: 1px solid #e3e6dc;
+  border-radius: 10px;
+  padding: 32px 36px;
+  margin-bottom: 36px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.03);
+}
+.pdp-desc-card h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  color: var(--forest);
+  margin: 0 0 16px;
+}
+.pdp-desc-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #4b5848;
+}
+
+/* Technical Details Table */
+.pdp-tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 16px;
+}
+.pdp-tech-table tr:nth-child(even) {
+  background: #f9f8f2;
+}
+.pdp-tech-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: #556250;
+  width: 32%;
+  border-bottom: 1px solid #e8ece2;
+}
+.pdp-tech-table td {
+  padding: 12px 16px;
+  color: var(--ink);
+  border-bottom: 1px solid #e8ece2;
+}
+
+/* Related Products Grid */
+.pdp-related-section {
+  padding: 48px 0 72px;
+}
+.pdp-related-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.pdp-related-heading h2 {
+  font-family: var(--serif);
+  font-size: 28px;
+  color: var(--forest);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .pdp-grid {
+    grid-template-columns: 1fr 1.15fr;
+    gap: 28px;
+  }
+  .pdp-buybox-col {
+    grid-column: 1 / -1;
+    position: static;
+  }
+  .pdp-gallery-col {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .pdp-main-section {
+    padding: 24px 0 44px;
+  }
+  .pdp-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .pdp-gallery-col {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+  .pdp-thumbs-rail {
+    flex-direction: row;
+    max-height: none;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pdp-thumb-btn {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+  .pdp-hero-image-box {
+    height: clamp(280px, 72vw, 360px);
+    min-height: 280px;
+    padding: 20px;
+  }
+  .pdp-title {
+    font-size: 24px;
+  }
+  .pdp-desc-card {
+    padding: 22px 18px;
+  }
+  .pdp-extended-section {
+    padding: 36px 0;
+  }
+  .pdp-related-section {
+    padding: 36px 0 54px;
+  }
+  .pdp-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+  .btn-amazon-primary, .btn-amazon-outline {
+    min-height: 48px;
+    width: 100%;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 540px) {
+  .pdp-breadcrumb-wrap {
+    padding: 9px 0;
+  }
+  .pdp-breadcrumb {
+    font-size: 10px;
+    gap: 6px;
+  }
+  .pdp-breadcrumb .current {
+    max-width: 170px;
+  }
+  .pdp-hero-image-box {
+    height: clamp(240px, 70vw, 300px);
+    min-height: 240px;
+    padding: 14px;
+  }
+  .pdp-thumb-btn {
+    width: 46px;
+    height: 46px;
+  }
+  .pdp-title {
+    font-size: clamp(20px, 5.5vw, 24px);
+    margin-bottom: 8px;
+  }
+  .pdp-brand-row {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+  .pdp-price-box {
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+  .pdp-price-number {
+    font-size: 28px;
+  }
+  .pdp-desc-card {
+    padding: 18px 14px;
+    margin-bottom: 24px;
+  }
+  .pdp-desc-card h2 {
+    font-size: 22px;
+  }
+  .pdp-tech-table th, .pdp-tech-table td {
+    display: block;
+    width: 100%;
+    padding: 7px 10px;
+  }
+  .pdp-tech-table th {
+    background: #f1ede1;
+    padding-bottom: 3px;
+    border-bottom: 0;
+  }
+  .pdp-tech-table td {
+    padding-top: 3px;
+  }
+  .pdp-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .pdp-related-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .pdp-hero-image-box {
+    height: 230px;
+    min-height: 230px;
+  }
+}

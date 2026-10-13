@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164e37">
+  <title id="page-title">Product Details — HOLYGATE</title>
+  <link rel="icon" href="./assets/brand-logo.png">
+  <link rel="stylesheet" href="./styles.css?v=18">
+  <link rel="stylesheet" href="./product.css?v=2">
+  <script src="./product.js?v=2" defer></script>
+</head>
+
+<body class="product-page-body">
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announcement-inner">
+      <span class="announce-piece"><span class="announce-icon">✦</span> Everyday essentials, thoughtfully chosen</span>
+      <span class="announce-divider"></span>
+      <span class="announce-piece">Explore the HOLYGATE range <span class="arrow-mini">↗</span></span>
+    </div>
+  </div>
+
+  <!-- Header Strip -->
+  <header class="site-header">
+    <div class="header-main wrap">
+      <a class="brand-lockup" href="./" aria-label="HOLYGATE home">
+        <img src="./assets/brand-logo.png" alt="HOLYGATE logo">
+        <span class="brand-wordmark"><strong>HOLYGATE</strong><small>PURE &amp; NATURAL</small></span>
+      </a>
+
+      <form class="search-form" id="search-form" role="search" action="/" method="GET">
+        <span class="search-symbol" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </span>
+        <input id="site-search" name="q" type="search" placeholder="Search pulses, atta, sugar, seeds and more…" aria-label="Search products">
+        <button aria-label="Search" type="submit">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a class="admin-login-btn" href="./admin.html" title="Admin Login">
+          <span class="action-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </span>
+          <span>Admin Login</span>
+        </a>
+      </div>
+
+      <button class="mobile-menu" id="mobile-menu" aria-expanded="false" aria-label="Open navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      <div class="wrap nav-inner">
+        <a href="./">Home</a>
+        <a href="./#shop-range" data-nav-category="Pulses & Lentils">Pulses &amp; Lentils</a>
+        <a href="./#shop-range" data-nav-category="Atta & Flour">Atta &amp; Flour</a>
+        <a href="./#shop-range" data-nav-category="Grains">Rice &amp; Grains</a>
+        <a href="./#shop-range" data-nav-category="Sugar">Sugar</a>
+        <a href="./#shop-range" data-nav-category="Seeds">Seeds</a>
+        <a href="./#shop-range" data-nav-category="Others">Others</a>
+        <a class="admin-shortcut" href="./admin.html" title="Admin login" aria-label="Admin login">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span class="admin-shortcut-text">Admin Login</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="pdp-breadcrumb-wrap">
+    <div class="wrap">
+      <nav class="pdp-breadcrumb" id="pdp-breadcrumb" aria-label="Breadcrumb">
+        <a href="./">Home</a>
+        <span class="sep">›</span>
+        <a href="./#shop-range" id="crumb-category">Store</a>
+        <span class="sep">›</span>
+        <span class="current" id="crumb-title">Loading product…</span>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <!-- Product Main Showcase -->
+    <section class="pdp-main-section">
+      <div class="wrap">
+        <div id="pdp-loading" class="loading-card" style="padding: 60px 20px; font-size: 15px;">
+          Loading product specifications from catalogue…
+        </div>
+
+        <div id="pdp-content" class="pdp-grid" hidden>
+          <!-- Column 1: Gallery -->
+          <div class="pdp-gallery-col">
+            <div class="pdp-thumbs-rail" id="pdp-thumbs-rail"></div>
+            <div class="pdp-hero-image-box">
+              <span class="pdp-badge-pill" id="pdp-badge">HOLYGATE VERIFIED</span>
+              <img id="pdp-main-img" class="pdp-hero-img" src="" alt="Product Image" referrerpolicy="no-referrer">
+            </div>
+          </div>
+
+          <!-- Column 2: Product Info -->
+          <div class="pdp-info-col">
+            <span class="pdp-category-tag" id="pdp-category">Category</span>
+            <h1 class="pdp-title" id="pdp-title">Product Title</h1>
+
+            <div class="pdp-brand-row">
+              <span>Brand: <strong class="pdp-brand-name" id="pdp-brand">HOLYGATE</strong></span>
+              <span class="pdp-rating-badge">
+                <span class="pdp-stars">★★★★★</span>
+                <span>4.8 (Verified Amazon Quality)</span>
+              </span>
+            </div>
+
+            <!-- Price -->
+            <div class="pdp-price-box">
+              <div class="pdp-price-main">
+                <span class="pdp-currency">₹</span>
+                <span class="pdp-price-number" id="pdp-price">--</span>
+              </div>
+              <p class="pdp-tax-note">Inclusive of all taxes · Available on Amazon.in</p>
+              <div class="pdp-prime-tag">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Prime Fast Delivery Eligible</span>
+              </div>
+            </div>
+
+            <!-- Quick Specs Grid -->
+            <div class="pdp-specs-grid" id="pdp-specs-grid">
+              <div class="pdp-spec-item">
+                <span class="pdp-spec-label">Pack Size</span>
+                <span class="pdp-spec-val" id="pdp-pack-size">1 kg</span>
+              </div>
+              <div class="pdp-spec-item">
+                <span class="pdp-spec-label">Category</span>
+                <span class="pdp-spec-val" id="pdp-spec-cat">Pantry</span>
+              </div>
+              <div class="pdp-spec-item">
+                <span class="pdp-spec-label">Diet Type</span>
+                <span class="pdp-spec-val">Vegetarian · 100% Pure</span>
+              </div>
+              <div class="pdp-spec-item">
+                <span class="pdp-spec-label">ASIN Code</span>
+                <span class="pdp-spec-val" id="pdp-asin">--</span>
+              </div>
+            </div>
+
+            <!-- Highlights -->
+            <div class="pdp-highlights-box" id="pdp-highlights-box">
+              <h3>About this item</h3>
+              <ul class="pdp-highlights-list" id="pdp-highlights-list"></ul>
+            </div>
+          </div>
+
+          <!-- Column 3: Amazon Buy Box -->
+          <div class="pdp-buybox-col">
+            <div class="pdp-buybox-card">
+              <div class="pdp-buybox-price" id="pdp-buybox-price">₹--</div>
+              <div class="pdp-buybox-stock">
+                <span class="pdp-stock-dot"></span>
+                <span>In Stock · Ready to Dispatch</span>
+              </div>
+              <p class="pdp-buybox-desc">
+                Official HOLYGATE Brand Product. Fulfilled securely via Amazon’s trusted logistics network with fast doorstep delivery.
+              </p>
+
+              <!-- Buy on Amazon Button -->
+              <a id="btn-buy-amazon" class="btn-amazon-primary" href="#" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.93 17.09c-2.83 2.08-6.95 3.2-10.51 3.2-4.97 0-9.45-1.95-12.86-5.21-.27-.26-.05-.62.29-.46 4.3 2.04 9.5 3.26 14.86 3.26 3.16 0 6.64-.59 9.8-1.84.48-.19.86.37.42.65zm1.51-1.37c-.36-.47-2.39-.22-3.3-.12-.27.03-.32-.19-.07-.36 1.63-1.12 4.29-.8 4.69-.3.4.5-.1 3.19-1.63 4.41-.23.19-.46.08-.34-.16.39-.81.99-2.98.65-3.47z"/>
+                </svg>
+                <span>Buy on Amazon Storefront ↗</span>
+              </a>
+
+              <a id="btn-check-amazon" class="btn-amazon-outline" href="#" target="_blank" rel="noopener noreferrer">
+                <span>View Listing on Amazon.in</span>
+              </a>
+
+              <!-- Trust Perks -->
+              <div class="pdp-trust-perks">
+                <div class="pdp-trust-item">
+                  <span class="pdp-trust-icon">✓</span>
+                  <span>100% Genuine Direct from Manufacturer (HOLYGATE)</span>
+                </div>
+                <div class="pdp-trust-item">
+                  <span class="pdp-trust-icon">🔒</span>
+                  <span>Official Brand Storefront on Amazon</span>
+                </div>
+                <div class="pdp-trust-item">
+                  <span class="pdp-trust-icon">⚡</span>
+                  <span>Fast, Reliable Doorstep Delivery</span>
+                </div>
+                <div class="pdp-trust-item">
+                  <span class="pdp-trust-icon">↺</span>
+                  <span>Hassle-Free Returns as per Amazon Policy</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extended Description & Specifications -->
+    <section class="pdp-extended-section" id="pdp-extended-section" hidden>
+      <div class="wrap">
+        <div class="pdp-desc-card">
+          <h2>Product Description &amp; Usage</h2>
+          <div class="pdp-desc-text" id="pdp-full-desc"></div>
+        </div>
+
+        <div class="pdp-desc-card">
+          <h2>Technical Details &amp; Specifications</h2>
+          <table class="pdp-tech-table">
+            <tbody>
+              <tr>
+                <th>Brand</th>
+                <td id="tbl-brand">HOLYGATE</td>
+              </tr>
+              <tr>
+                <th>Category</th>
+                <td id="tbl-category">Food Staples</td>
+              </tr>
+              <tr>
+                <th>Net Quantity / Pack Size</th>
+                <td id="tbl-pack-size">1 kg</td>
+              </tr>
+              <tr>
+                <th>ASIN Identifier</th>
+                <td id="tbl-asin">--</td>
+              </tr>
+              <tr>
+                <th>Form Factor</th>
+                <td>Whole, Unpolished, Naturally Processed</td>
+              </tr>
+              <tr>
+                <th>Diet Type</th>
+                <td>Vegetarian</td>
+              </tr>
+              <tr>
+                <th>Country of Origin</th>
+                <td>India</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="pdp-related-section" id="pdp-related-section" hidden>
+      <div class="wrap">
+        <div class="pdp-related-heading">
+          <h2>Similar Products You May Like</h2>
+          <a class="text-link" href="./#shop-range">View all products <span>→</span></a>
+        </div>
+        <div class="product-grid" id="pdp-related-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="footer-lockup">
+          <img src="./assets/brand-logo.png" alt="HOLYGATE logo">
+          <span><b>HOLYGATE</b><small>PURE &amp; NATURAL</small></span>
+        </div>
+        <p>Pure, wholesome, everyday essentials for your kitchen. High quality staples sourced with care.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Categories</h3>
+        <a href="./#shop-range">Pulses &amp; Lentils</a>
+        <a href="./#shop-range">Atta &amp; Flour</a>
+        <a href="./#shop-range">Sugar &amp; Sweeteners</a>
+        <a href="./#shop-range">Healthy Seeds</a>
+      </div>
+
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <a href="./">Home</a>
+        <a href="./#shop-range">Shop Range</a>
+        <a href="./admin.html">Admin Dashboard</a>
+        <a href="https://www.amazon.in/s?k=HolyGate" target="_blank" rel="noopener">Amazon Storefront</a>
+      </div>
+
+      <div class="footer-col footer-contact">
+        <h3>Customer Care</h3>
+        <p>Have questions about our pantry range or orders? Contact us anytime.</p>
+        <p><a href="mailto:care@holygate.in">care@holygate.in</a></p>
+      </div>
+    </div>
+
+    <div class="wrap footer-bottom">
+      <span>© 2026 HOLYGATE Pure &amp; Natural. Official Brand Store. All rights reserved.</span>
+      <span>Official Manufacturer Store · Fulfilled securely via Amazon.in</span>
+    </div>
+  </footer>
+</body>
+
+</html>

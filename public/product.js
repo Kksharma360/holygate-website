@@ -42,9 +42,9 @@
 
   function productCard(product) {
     const title = escapeHtml(product.title || 'HOLYGATE Product');
-    const productUrl = `/product.html?id=${encodeURIComponent(product.id)}`;
+    const productUrl = `./product.html?id=${encodeURIComponent(product.id)}`;
     const image = String(product.image || '');
-    const imageBlock = /^https:\/\//i.test(image) || image.startsWith('/assets/')
+    const imageBlock = /^https:\/\//i.test(image) || image.startsWith('assets/') || image.startsWith('./assets/') || image.startsWith('/assets/')
       ? `<img src="${escapeHtml(image)}" alt="${title}" loading="lazy" referrerpolicy="no-referrer">`
       : productArt(product);
     const featured = product.featured
@@ -146,11 +146,26 @@
       console.warn('Catalogue list fetch error:', e);
     }
 
+    if (!product || !allProducts.length) {
+      try {
+        const jsonRes = await fetch('./data/products.json');
+        if (jsonRes.ok) {
+          const data = await jsonRes.json();
+          allProducts = Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : []);
+          if (!product) {
+            product = allProducts.find(p => p.id === targetId || p.asin === targetId);
+          }
+        }
+      } catch (err) {
+        console.warn('Local json fallback fetch failed:', err);
+      }
+    }
+
     if (!product) {
       loadingEl.innerHTML = `<div style="text-align: center;">
         <h2 style="font-size: 20px; margin-bottom: 12px; color: #b91c1c;">Product Not Found</h2>
         <p style="color: var(--clr-subtext); margin-bottom: 20px;">The requested product could not be located in our catalogue.</p>
-        <a href="/" class="btn-amazon-primary" style="display: inline-flex; width: auto; padding: 10px 24px;">Return to Storefront ↗</a>
+        <a href="./" class="btn-amazon-primary" style="display: inline-flex; width: auto; padding: 10px 24px;">Return to Storefront ↗</a>
       </div>`;
       return;
     }
@@ -160,7 +175,7 @@
     const crumbCategory = $('#crumb-category');
     if (crumbCategory) {
       crumbCategory.textContent = product.category || 'Store';
-      crumbCategory.href = `/#shop-range`;
+      crumbCategory.href = `./#shop-range`;
     }
     const crumbTitle = $('#crumb-title');
     if (crumbTitle) {
@@ -169,8 +184,8 @@
 
     // Gather unique, valid image sources
     const rawImages = [product.image, ...(Array.isArray(product.gallery) ? product.gallery : [])];
-    const gallery = [...new Set(rawImages.filter(src => /^https?:\/\//i.test(String(src || '')) || String(src || '').startsWith('/assets/')))];
-    const primaryImg = gallery[0] || product.image || '/assets/brand-logo.png';
+    const gallery = [...new Set(rawImages.filter(src => /^https?:\/\//i.test(String(src || '')) || String(src || '').includes('assets/')))];
+    const primaryImg = gallery[0] || product.image || './assets/brand-logo.png';
 
     // Setup Gallery & Main Image
     const mainImgEl = $('#pdp-main-img');
@@ -178,7 +193,7 @@
       mainImgEl.src = primaryImg;
       mainImgEl.alt = product.title;
       mainImgEl.addEventListener('error', () => {
-        mainImgEl.src = '/assets/brand-logo.png';
+        mainImgEl.src = './assets/brand-logo.png';
       }, { once: true });
     }
 
