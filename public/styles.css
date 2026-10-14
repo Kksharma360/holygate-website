@@ -146,13 +146,14 @@
   .nav-inner a:hover,.nav-inner a.nav-active{background:var(--forest);color:#fff;border-color:var(--forest)}
   .nav-inner .nav-active:after{display:none}
   .nav-inner .admin-shortcut{display:flex!important;align-items:center;justify-content:center;gap:8px;grid-column:1/-1;width:100%;min-height:40px;border-radius:6px;background:#edf4ec;border:1px solid #c9d8c4;color:var(--forest);font-weight:700}
-  .hero-unified-section{min-height:auto;padding:28px 0 32px}
-  .hero-slider-scrim{background:linear-gradient(180deg,rgba(255,253,248,.96) 0%,rgba(255,253,248,.92) 65%,rgba(255,253,248,.78) 100%);mask-image:none;-webkit-mask-image:none}
-  .hero-slide-main{object-position:center center}
-  .hero-unified-content{height:auto;padding:0}
-  .hero-unified-copy{max-width:100%;margin-left:0}
-  .hero-unified-copy h1{font-size:clamp(28px,6vw,38px);margin-bottom:18px}
-  .slider-controls-bar{bottom:12px;right:16px;padding:5px 12px;gap:8px}
+  .hero-unified-section{position:relative;width:100%;min-height:0;height:clamp(240px,56.25vw,460px);background:#133c2a;overflow:hidden;padding:0;display:block}
+  .hero-banner-slider{position:absolute;inset:0;width:100%;height:100%}
+  .hero-slider-track{position:absolute;inset:0;width:100%;height:100%}
+  .hero-slide{position:absolute;inset:0}
+  .hero-slide-main{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+  .hero-slider-scrim{display:none!important}
+  .hero-unified-content{display:none!important}
+  .hero-bottom-rule{display:none!important}
   .section-pad{padding:50px 0}
   .section-heading h2{font-size:34px}
   .heading-note{font-size:11px;max-width:240px}
@@ -185,12 +186,7 @@
   .brand-wordmark{display:none}
   .search-form{height:36px;padding-left:8px}
   .search-form input{font-size:10.5px}
-  .search-form button{width:30px;height:28px}
-  .hero-unified-section{padding:20px 0 24px}
-  .hero-unified-copy h1{font-size:clamp(25px,6.8vw,30px);margin-bottom:14px}
-  .hero-unified-actions{flex-direction:column;width:100%;gap:10px}
-  .hero-unified-actions .button-amazon,.hero-unified-actions .button-red{width:100%;justify-content:center;min-height:46px;font-size:12px}
-  .slider-controls-bar{left:50%;right:auto;transform:translateX(-50%);bottom:10px;padding:4px 10px;gap:7px}
+  .hero-unified-section{height:clamp(195px,56.25vw,300px);padding:0}
   .section-pad{padding:38px 0}
   .section-heading{align-items:flex-start;flex-direction:column;gap:12px}
   .section-heading h2{font-size:29px}
@@ -237,7 +233,6 @@
   .category-visual-frame{width:64px;height:64px;margin:0 12px 0 0;flex-shrink:0}
   .category-image-circle{width:60px;height:60px}
   .category-desc{display:block;font-size:8.5px}
-  .hero-unified-copy h1{font-size:24px}
 }
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 /* CSS packshot illustrations used until a product-specific Amazon image is imported. */
