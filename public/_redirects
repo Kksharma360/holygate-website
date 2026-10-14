@@ -1,6 +1,8 @@
 # Netlify Redirects for HOLYGATE Storefront
+/about            /about.html          200
 /admin            /admin.html          200
 /contact          /contact.html        200
 /product          /product.html        200
 /index            /index.html          200
+
 
