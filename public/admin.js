@@ -673,7 +673,15 @@
     showToast('Fetching latest prices from Amazon for all products…');
 
     try {
-      const res = await api('/api/admin/update-pricing', { method: 'POST' });
+      let res;
+      if (window.HolygateDB) {
+        res = await window.HolygateDB.updatePricing((progress) => {
+          if (btn) btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg><span>Checking (${progress.current}/${progress.total})…</span>`;
+          if (bannerBtn) bannerBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg><span>⚡ (${progress.current}/${progress.total})…</span>`;
+        });
+      } else {
+        res = await api('/api/admin/update-pricing', { method: 'POST' });
+      }
       await loadProducts();
       showToast(res.message || 'Pricing update complete!');
       showPricingUpdateModal(res);

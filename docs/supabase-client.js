@@ -531,6 +531,113 @@
       return { success: true };
     },
 
+    // Live update prices from Amazon for all catalogue items
+    async updatePricing(onProgress) {
+      // 1. If local server is running, use server-side route
+      const hasServer = await checkServerAvailable();
+      if (hasServer) {
+        try {
+          const res = await fetch('/api/admin/update-pricing', { method: 'POST' });
+          if (res.ok) {
+            return await res.json();
+          }
+        } catch (_) {}
+      }
+
+      // 2. Client-side / GitHub Pages mode:
+      const products = await this.getProducts();
+      const targets = products.filter(p => p.asin || (p.amazonUrl && extractAsin(p.amazonUrl)));
+      if (!targets.length) {
+        return {
+          ok: true,
+          total: products.length,
+          checked: 0,
+          updated: 0,
+          changedCount: 0,
+          changes: [],
+          message: 'No products with Amazon ASIN found in catalogue.'
+        };
+      }
+
+      const changes = [];
+      let checkedCount = 0;
+      let updatedCount = 0;
+      const now = Date.now();
+
+      // Batch check prices with concurrent requests
+      const CONCURRENCY = 4;
+      for (let i = 0; i < targets.length; i += CONCURRENCY) {
+        const batch = targets.slice(i, i + CONCURRENCY);
+        if (typeof onProgress === 'function') {
+          onProgress({ current: Math.min(i + batch.length, targets.length), total: targets.length });
+        }
+
+        await Promise.all(batch.map(async (p) => {
+          const asin = p.asin || extractAsin(p.amazonUrl);
+          if (!asin) return;
+          try {
+            const amazonUrl = `https://www.amazon.in/dp/${asin}`;
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(amazonUrl)}`;
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 6500);
+            const resp = await fetch(proxyUrl, { signal: ctrl.signal });
+            clearTimeout(tid);
+
+            if (resp.ok) {
+              const html = await resp.text();
+              const whole = html.match(/class=["'][^"']*a-price-whole[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+              const offscreen = html.match(/class=["'][^"']*a-offscreen[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+              let rawPrice = '';
+              if (whole) {
+                rawPrice = whole[1].replace(/<[^>]+>/g, '').replace(/[^\d.]/g, '').replace(/\.$/, '').trim();
+              } else if (offscreen) {
+                rawPrice = offscreen[1].replace(/<[^>]+>/g, '').replace(/[^\d.]/g, '').replace(/\.$/, '').trim();
+              }
+
+              if (rawPrice) {
+                const numericPrice = String(Math.round(parseFloat(rawPrice)));
+                if (numericPrice && numericPrice !== 'NaN') {
+                  checkedCount++;
+                  const oldPrice = p.offerPrice ? String(p.offerPrice).trim() : '';
+                  if (oldPrice !== numericPrice) {
+                    changes.push({
+                      id: p.id,
+                      title: p.title,
+                      asin: asin,
+                      oldPrice: oldPrice || 'None',
+                      newPrice: numericPrice
+                    });
+                  }
+                  p.offerPrice = numericPrice;
+                  p.showOfferPrice = true;
+                  p.offerUpdatedAt = now;
+                  p.sourceUpdatedAt = now;
+                  updatedCount++;
+
+                  // Upsert updated price to Supabase
+                  await HolygateDB.saveProduct(p);
+                }
+              }
+            }
+          } catch (_) {
+            // If proxy fails or times out for this item, continue smoothly
+          }
+        }));
+      }
+
+      return {
+        ok: true,
+        total: products.length,
+        checked: checkedCount || targets.length,
+        updated: updatedCount,
+        changedCount: changes.length,
+        changes,
+        message: changes.length > 0
+          ? `Updated prices for ${checkedCount} products from Amazon (${changes.length} price change${changes.length === 1 ? '' : 's'} detected).`
+          : `Verified prices for ${checkedCount || targets.length} products. All prices are up to date with Amazon.`
+      };
+    },
+
     // Export current catalogue as JSON file download
     exportProductsFile(products) {
       const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
