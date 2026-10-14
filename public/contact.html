@@ -183,18 +183,18 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label for="contact-name">Full Name <span>*</span></label>
-                <input type="text" id="contact-name" name="name" required placeholder="e.g. Rahul Sharma" autocomplete="name">
+                <input type="text" id="contact-name" name="name" required placeholder="Name" autocomplete="name">
               </div>
               <div class="form-group">
                 <label for="contact-phone">Phone Number / WhatsApp <span>*</span></label>
-                <input type="tel" id="contact-phone" name="phone" required placeholder="e.g. 9891824048" autocomplete="tel">
+                <input type="tel" id="contact-phone" name="phone" required pattern="[0-9]{10}" maxlength="10" minlength="10" inputmode="numeric" placeholder="10-digit mobile number" title="Please enter a 10-digit phone number" autocomplete="tel">
               </div>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label for="contact-email">Email Address <span>*</span></label>
-                <input type="email" id="contact-email" name="email" required placeholder="e.g. rahul@example.com" autocomplete="email">
+                <input type="email" id="contact-email" name="email" required placeholder="abcd@gmail.com" autocomplete="email">
               </div>
               <div class="form-group">
                 <label for="contact-topic">Enquiry Type <span>*</span></label>
@@ -357,6 +357,15 @@
           return;
         }
 
+        const cleanPhone = phone.replace(/\D/g, '');
+        if (cleanPhone.length !== 10) {
+          statusMsg.className = 'form-status-msg error';
+          statusMsg.textContent = 'Please enter a valid 10-digit mobile number.';
+          statusMsg.style.display = 'block';
+          document.getElementById('contact-phone').focus();
+          return;
+        }
+
         submitBtn.disabled = true;
         const originalBtnHtml = submitBtn.innerHTML;
         submitBtn.innerHTML = '<span>⏳ Sending enquiry to holygatefoods@gmail.com…</span>';
@@ -412,6 +421,14 @@
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnHtml;
         }
+      });
+    }
+
+    // Restrict phone input to exactly 10 digits
+    const phoneInput = document.getElementById('contact-phone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').slice(0, 10);
       });
     }
 
