@@ -166,8 +166,9 @@
             <p>Fill out the form below. Your message will be sent directly to <strong>holygatefoods@gmail.com</strong>, and our team will get in touch with you promptly.</p>
           </div>
 
-          <form id="enquiry-form" action="https://formsubmit.co/holygatefoods@gmail.com" method="POST">
-            <!-- FormSubmit configuration -->
+          <form id="enquiry-form" name="contact-enquiry" data-netlify="true" action="https://formsubmit.co/holygatefoods@gmail.com" method="POST">
+            <!-- Netlify Form & FormSubmit Configuration -->
+            <input type="hidden" name="form-name" value="contact-enquiry">
             <input type="hidden" name="_subject" id="form-subject-field" value="New Customer Enquiry — HOLYGATE">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">

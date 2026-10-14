@@ -746,24 +746,14 @@
   async function loadProducts() {
     if (!productGrid) return;
     try {
-      if (window.HolygateDB) {
-        allProducts = await window.HolygateDB.getProducts();
-      } else {
-        const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
-        if (!response.ok) throw new Error('API products fetch failed');
-        const data = await response.json();
-        allProducts = Array.isArray(data.products) ? data.products : [];
-      }
-    } catch (error) {
-      try {
-        const fallbackRes = await fetch('./data/products.json');
-        if (!fallbackRes.ok) throw new Error('Fallback products.json fetch failed');
-        const data = await fallbackRes.json();
-        allProducts = Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : []);
-      } catch (err) {
-        productGrid.innerHTML = '<div class="loading-card">The storefront could not connect to its product catalogue.</div>';
-        return;
-      }
+      const res = await fetch('./data/products.json');
+      if (!res.ok) throw new Error('Could not fetch products.json');
+      const data = await res.json();
+      allProducts = Array.isArray(data) ? data : (Array.isArray(data.products) ? data.products : []);
+    } catch (err) {
+      console.warn('Storefront data loading error:', err);
+      productGrid.innerHTML = '<div class="loading-card">The storefront could not connect to its product catalogue.</div>';
+      return;
     }
     updateDisclosures();
 

@@ -140,57 +140,15 @@
     let product = null;
     let allProducts = [];
 
-    if (window.HolygateDB) {
-      try {
-        product = await window.HolygateDB.getProductById(targetId);
-        allProducts = await window.HolygateDB.getProducts();
-      } catch (e) {
-        console.warn('HolygateDB product fetch error:', e);
+    try {
+      const jsonRes = await fetch('./data/products.json');
+      if (jsonRes.ok) {
+        const data = await jsonRes.json();
+        allProducts = Array.isArray(data) ? data : (Array.isArray(data.products) ? data.products : []);
+        product = allProducts.find(p => p.id === targetId || p.asin === targetId);
       }
-    }
-
-    if (!product) {
-      try {
-        // First attempt single product endpoint
-        const directRes = await fetch(`/api/products/${encodeURIComponent(targetId)}`);
-        if (directRes.ok) {
-          const data = await directRes.json();
-          product = data.product;
-        }
-      } catch (e) {
-        console.warn('Direct fetch failed, falling back to catalogue list:', e);
-      }
-    }
-
-    if (!allProducts.length) {
-      try {
-        // Fetch full catalogue for fallback lookup and related products
-        const listRes = await fetch('/api/products');
-        if (listRes.ok) {
-          const data = await listRes.json();
-          allProducts = Array.isArray(data.products) ? data.products : [];
-          if (!product) {
-            product = allProducts.find(p => p.id === targetId || p.asin === targetId);
-          }
-        }
-      } catch (e) {
-        console.warn('Catalogue list fetch error:', e);
-      }
-    }
-
-    if (!product || !allProducts.length) {
-      try {
-        const jsonRes = await fetch('./data/products.json');
-        if (jsonRes.ok) {
-          const data = await jsonRes.json();
-          allProducts = Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : []);
-          if (!product) {
-            product = allProducts.find(p => p.id === targetId || p.asin === targetId);
-          }
-        }
-      } catch (err) {
-        console.warn('Local json fallback fetch failed:', err);
-      }
+    } catch (err) {
+      console.warn('Local json fetch failed:', err);
     }
 
     if (!product) {
