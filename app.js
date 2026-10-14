@@ -162,10 +162,14 @@
   async function loadProducts() {
     if (!productGrid) return;
     try {
-      const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('API products fetch failed');
-      const data = await response.json();
-      allProducts = Array.isArray(data.products) ? data.products : [];
+      if (window.HolygateDB) {
+        allProducts = await window.HolygateDB.getProducts();
+      } else {
+        const response = await fetch('/api/products', { headers: { Accept: 'application/json' } });
+        if (!response.ok) throw new Error('API products fetch failed');
+        const data = await response.json();
+        allProducts = Array.isArray(data.products) ? data.products : [];
+      }
     } catch (error) {
       try {
         const fallbackRes = await fetch('./data/products.json');

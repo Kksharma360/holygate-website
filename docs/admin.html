@@ -7,6 +7,7 @@
   <title>HOLYGATE Admin — Product Catalogue</title>
   <link rel="icon" href="./assets/brand-logo.png">
   <link rel="stylesheet" href="./admin.css">
+  <script src="./supabase-client.js"></script>
   <script src="./admin.js" defer></script>
 </head>
 <body class="admin-body">
@@ -124,6 +125,12 @@
           </button>
           <button type="button" class="btn-sync-supabase" id="btn-sync-supabase" title="Upload local products to Supabase">
             <span>☁ Sync to Supabase</span>
+          </button>
+          <button type="button" class="btn-sync-supabase" id="btn-export-json" title="Download full catalogue as products.json">
+            <span>📥 Export JSON</span>
+          </button>
+          <button type="button" class="btn-sync-supabase" id="btn-supabase-settings" title="Supabase Cloud Connection Settings">
+            <span>⚙ Settings</span>
           </button>
         </div>
       </section>
@@ -321,6 +328,56 @@
       <div id="pricing-modal-body" class="pricing-modal-body"></div>
       <div class="pricing-modal-footer">
         <button type="button" class="admin-primary" id="pricing-modal-ok">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase Settings Modal -->
+  <div id="settings-modal" class="pricing-modal" hidden>
+    <div class="pricing-modal-backdrop" id="settings-modal-backdrop"></div>
+    <div class="pricing-modal-dialog" style="max-width: 580px;">
+      <div class="pricing-modal-header">
+        <div class="pricing-modal-title">
+          <span class="pricing-modal-icon">⚙</span>
+          <div>
+            <h3>Cloud Database Settings</h3>
+            <p>Configure Supabase credentials for real-time cloud sync on GitHub Pages</p>
+          </div>
+        </div>
+        <button type="button" class="pricing-modal-close" id="settings-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="pricing-modal-body" style="padding: 20px 24px;">
+        <p style="font-size: 13px; color: #4b5563; margin-bottom: 16px; line-height: 1.5;">
+          These credentials are used by the storefront and admin panel to communicate directly with your Supabase database. They are securely saved in your browser storage.
+        </p>
+        <form id="settings-form">
+          <div style="margin-bottom: 14px;">
+            <label style="display:block; font-size:12px; font-weight:700; color:#1f2937; margin-bottom:4px;" for="setting-supabase-url">Supabase Project URL</label>
+            <input type="url" id="setting-supabase-url" style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:6px; font-size:13px;" required placeholder="https://xxxx.supabase.co">
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="display:block; font-size:12px; font-weight:700; color:#1f2937; margin-bottom:4px;" for="setting-supabase-key">Supabase Anon Key (Public Key)</label>
+            <textarea id="setting-supabase-key" rows="3" style="width:100%; padding:8px 12px; border:1px solid #d1d5db; border-radius:6px; font-family:monospace; font-size:11px; resize:vertical;" required placeholder="eyJhbGci..."></textarea>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom: 18px;">
+            <div>
+              <label style="display:block; font-size:12px; font-weight:700; color:#1f2937; margin-bottom:4px;" for="setting-admin-user">Admin Email</label>
+              <input type="email" id="setting-admin-user" style="width:100%; padding:8px 12px; border:1px solid #d1d5db; border-radius:6px; font-size:13px;" required>
+            </div>
+            <div>
+              <label style="display:block; font-size:12px; font-weight:700; color:#1f2937; margin-bottom:4px;" for="setting-admin-pass">Admin Password</label>
+              <input type="text" id="setting-admin-pass" style="width:100%; padding:8px 12px; border:1px solid #d1d5db; border-radius:6px; font-size:13px;" required>
+            </div>
+          </div>
+          <p id="settings-test-status" style="font-size:12px; margin-bottom:14px; min-height:18px; font-weight:600;"></p>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <button type="button" class="admin-ghost" id="setting-reset-default" style="font-size:12px;">Reset to Default</button>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="admin-ghost" id="setting-test-conn" style="font-size:12px;">Test Connection</button>
+              <button type="submit" class="admin-primary" style="font-size:12px;">Save Settings ↗</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>

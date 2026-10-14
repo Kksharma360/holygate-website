@@ -74,23 +74,44 @@
   }
 
   async function logout() {
-    try {
-      await api('/api/admin/logout', { method: 'POST', body: '{}' });
-    } catch (_) {}
+    if (window.HolygateDB) {
+      await window.HolygateDB.logout();
+    } else {
+      try {
+        await api('/api/admin/logout', { method: 'POST', body: '{}' });
+      } catch (_) {}
+    }
     showLogin();
     resetForm();
     showToast('You have signed out successfully.');
   }
 
   async function checkSupabaseStatus() {
+    const badge = $('#supabase-status-badge');
+    const statusText = $('#supabase-status-text');
+    const engineTitle = $('#supabase-engine-title');
+    const engineDesc = $('#supabase-engine-desc');
+    if (!badge) return;
+
+    if (window.HolygateDB) {
+      const st = await window.HolygateDB.testConnection();
+      if (st.connected) {
+        badge.className = 'supabase-badge connected';
+        statusText.textContent = 'Supabase Cloud Connected';
+        engineTitle.textContent = `Storage Engine: Supabase Cloud (${st.mode || 'PostgreSQL'})`;
+        engineDesc.textContent = `Connected to ${st.url}. Products & edits sync live with cloud database.`;
+        return;
+      } else if (st.configured && !st.connected) {
+        badge.className = 'supabase-badge fallback';
+        statusText.textContent = 'Supabase Error';
+        engineTitle.textContent = 'Supabase Connection Error';
+        engineDesc.textContent = st.error || 'Check project URL and API key.';
+        return;
+      }
+    }
+
     try {
       const data = await api('/api/admin/supabase-status');
-      const badge = $('#supabase-status-badge');
-      const statusText = $('#supabase-status-text');
-      const engineTitle = $('#supabase-engine-title');
-      const engineDesc = $('#supabase-engine-desc');
-      if (!badge) return;
-
       if (data.configured && data.connected) {
         badge.className = 'supabase-badge connected';
         statusText.textContent = 'Supabase Cloud Connected';
@@ -107,7 +128,10 @@
         engineTitle.textContent = 'Storage Engine: Local products.json';
         engineDesc.textContent = 'Configure SUPABASE_URL & SUPABASE_KEY in .env to connect to your free Supabase cloud.';
       }
-    } catch (_) {}
+    } catch (_) {
+      badge.className = 'supabase-badge fallback';
+      statusText.textContent = 'Storage Status Unknown';
+    }
   }
 
   $('#btn-sync-supabase')?.addEventListener('click', async () => {
@@ -116,10 +140,15 @@
     const oldText = btn.innerHTML;
     btn.innerHTML = '<span>⏳ Syncing to Supabase…</span>';
     try {
-      const res = await api('/api/admin/supabase-sync', { method: 'POST' });
-      showToast(`✓ Synced ${res.synced} of ${res.total} products to Supabase!`);
-      loadProducts();
-      checkSupabaseStatus();
+      if (window.HolygateDB) {
+        const res = await window.HolygateDB.syncLocalToSupabase();
+        showToast(`✓ Synced ${res.synced} of ${res.total} products to Supabase!`);
+      } else {
+        const res = await api('/api/admin/supabase-sync', { method: 'POST' });
+        showToast(`✓ Synced ${res.synced} of ${res.total} products to Supabase!`);
+      }
+      await loadProducts();
+      await checkSupabaseStatus();
     } catch (e) {
       showToast(`Sync error: ${e.message}`);
     } finally {
@@ -210,8 +239,12 @@
 
   async function loadProducts() {
     try {
-      const data = await api('/api/admin/products');
-      products = Array.isArray(data.products) ? data.products : [];
+      if (window.HolygateDB) {
+        products = await window.HolygateDB.getProducts();
+      } else {
+        const data = await api('/api/admin/products');
+        products = Array.isArray(data.products) ? data.products : [];
+      }
       renderProducts();
     } catch (error) {
       try {
@@ -391,19 +424,25 @@
     const userVal = $('#login-username').value.trim();
     const passVal = $('#login-password').value;
     try {
-      const data = await api('/api/admin/login', {
-        method: 'POST',
-        body: JSON.stringify({
-          username: userVal,
-          password: passVal
-        })
-      });
-      showDashboard(data.username);
-      showToast('Signed in to the HOLYGATE catalogue.');
+      if (window.HolygateDB) {
+        const res = await window.HolygateDB.login(userVal, passVal);
+        showDashboard(res.username);
+        showToast('Signed in to HOLYGATE Catalogue.');
+      } else {
+        const data = await api('/api/admin/login', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: userVal,
+            password: passVal
+          })
+        });
+        showDashboard(data.username);
+        showToast('Signed in to HOLYGATE Catalogue.');
+      }
     } catch (error) {
-      if (passVal === 'HolyGateDemo#2026' || error.message.includes('404')) {
+      if (passVal === 'HolyGateDemo#2026') {
         showDashboard(userVal || 'admin@holygate.in');
-        showToast('Signed in (GitHub Pages preview mode)');
+        showToast('Signed in with demo access');
       } else {
         setLoginError(error.message);
       }
@@ -425,10 +464,15 @@
     button.innerHTML = '<span>Copying from Amazon…</span>';
     setImportStatus('Connecting to Amazon and copying images, details & specifications…');
     try {
-      const data = await api('/api/admin/import-amazon', {
-        method: 'POST',
-        body: JSON.stringify({ amazonUrl, category })
-      });
+      let data;
+      if (window.HolygateDB) {
+        data = await window.HolygateDB.importAmazon(amazonUrl, category);
+      } else {
+        data = await api('/api/admin/import-amazon', {
+          method: 'POST',
+          body: JSON.stringify({ amazonUrl, category })
+        });
+      }
       const product = data.product;
       $('#amazon-source').value = String(Boolean(product.amazonSource));
       $('#asin').value = product.asin || '';
@@ -450,7 +494,7 @@
       const imgCount = (product.gallery || []).length || (product.image ? 1 : 0);
       setImportStatus((data.warnings || []).length
         ? data.warnings.join(' ')
-        : `✓ Successfully copied from Amazon! ${imgCount} images, price (₹${product.offerPrice || 'N/A'}), brand & bullet points ready. Review below and click Publish.`,
+        : `✓ Successfully copied from Amazon! ${imgCount} image(s), price (₹${product.offerPrice || 'N/A'}), brand & bullet points ready. Review below and click Publish.`,
         (data.warnings || []).length ? 'error' : 'success'
       );
       setSaveStatus('Details imported. Click Publish Listing below to post on your website.');
@@ -471,13 +515,21 @@
     button.textContent = 'Publishing…';
     setSaveStatus('');
     try {
-      const data = await api('/api/admin/products', { method: 'POST', body: JSON.stringify(productPayload()) });
-      products = [data.product, ...products.filter(p => p.id !== data.product.id)];
+      const payload = productPayload();
+      let savedProduct;
+      if (window.HolygateDB) {
+        savedProduct = await window.HolygateDB.saveProduct(payload);
+      } else {
+        const data = await api('/api/admin/products', { method: 'POST', body: JSON.stringify(payload) });
+        savedProduct = data.product;
+      }
+      products = [savedProduct, ...products.filter(p => p.id !== savedProduct.id)];
       renderProducts();
       resetForm();
-      showToast('✓ Product published live! It is now visible on the website.');
+      showToast('✓ Product published live to Supabase! It is now visible on the website.');
     } catch (error) {
       setSaveStatus(error.message);
+      showToast(`Save error: ${error.message}`);
     } finally {
       button.disabled = false;
       button.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + ($('#product-id').value ? 'Update Listing on Website <span>↗</span>' : 'Publish Listing to Website <span>↗</span>');
@@ -505,10 +557,14 @@
       product.featured = newStatus;
       button.disabled = true;
       try {
-        await api('/api/admin/products', {
-          method: 'POST',
-          body: JSON.stringify({ ...product, featured: newStatus })
-        });
+        if (window.HolygateDB) {
+          await window.HolygateDB.toggleFeatured(product.id, newStatus);
+        } else {
+          await api('/api/admin/products', {
+            method: 'POST',
+            body: JSON.stringify({ ...product, featured: newStatus })
+          });
+        }
         renderProducts();
         showToast(newStatus ? `★ “${product.title}” is now featured on the homepage!` : `“${product.title}” removed from featured picks.`);
       } catch (err) {
@@ -523,13 +579,17 @@
       if (!confirm(`Delete “${product.title}” from the catalogue? This cannot be undone.`)) return;
       button.disabled = true;
       try {
-        await api(`/api/admin/products/${encodeURIComponent(product.id)}`, { method: 'DELETE' });
+        if (window.HolygateDB) {
+          await window.HolygateDB.deleteProduct(product.id);
+        } else {
+          await api(`/api/admin/products/${encodeURIComponent(product.id)}`, { method: 'DELETE' });
+        }
         products = products.filter(item => item.id !== product.id);
         renderProducts();
         if ($('#product-id').value === product.id) resetForm();
-        showToast('Product removed from the catalogue.');
+        showToast('✓ Product removed from the catalogue.');
       } catch (error) {
-        showToast(error.message);
+        showToast(`Delete error: ${error.message}`);
         button.disabled = false;
       }
     }
@@ -636,6 +696,96 @@
   $('#btn-update-pricing')?.addEventListener('click', handleUpdatePricing);
   $('#btn-update-pricing-banner')?.addEventListener('click', handleUpdatePricing);
 
-  api('/api/admin/session').then(data => showDashboard(data.username)).catch(() => showLogin());
+  // Export JSON catalogue
+  $('#btn-export-json')?.addEventListener('click', () => {
+    if (window.HolygateDB && Array.isArray(products) && products.length) {
+      window.HolygateDB.exportProductsFile(products);
+      showToast(`✓ Exported ${products.length} products to products.json`);
+    } else {
+      showToast('No products available to export.');
+    }
+  });
+
+  // Settings Modal handlers
+  const settingsModal = $('#settings-modal');
+  function openSettingsModal() {
+    if (!settingsModal) return;
+    const cfg = window.HolygateDB ? window.HolygateDB.getConfig() : {};
+    $('#setting-supabase-url').value = cfg.supabaseUrl || '';
+    $('#setting-supabase-key').value = cfg.supabaseKey || '';
+    $('#setting-admin-user').value = cfg.adminUser || 'admin@holygate.in';
+    $('#setting-admin-pass').value = cfg.adminPassword || 'HolyGateDemo#2026';
+    const statusEl = $('#settings-test-status');
+    if (statusEl) { statusEl.textContent = ''; statusEl.style.color = ''; }
+    settingsModal.hidden = false;
+  }
+  function closeSettingsModal() {
+    if (settingsModal) settingsModal.hidden = true;
+  }
+
+  $('#btn-supabase-settings')?.addEventListener('click', openSettingsModal);
+  $('#settings-modal-close')?.addEventListener('click', closeSettingsModal);
+  $('#settings-modal-backdrop')?.addEventListener('click', closeSettingsModal);
+
+  $('#settings-form')?.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!window.HolygateDB) return;
+    const url = $('#setting-supabase-url').value.trim();
+    const key = $('#setting-supabase-key').value.trim();
+    const adminUser = $('#setting-admin-user').value.trim();
+    const adminPassword = $('#setting-admin-pass').value.trim();
+
+    window.HolygateDB.saveConfig({
+      supabaseUrl: url,
+      supabaseKey: key,
+      adminUser,
+      adminPassword
+    });
+
+    closeSettingsModal();
+    showToast('✓ Supabase settings saved!');
+    checkSupabaseStatus();
+    loadProducts();
+  });
+
+  $('#setting-reset-default')?.addEventListener('click', () => {
+    if (!confirm('Reset Supabase & admin credentials to default project?')) return;
+    localStorage.removeItem('holygate_supabase_config');
+    openSettingsModal();
+    showToast('Reset to default project credentials.');
+    checkSupabaseStatus();
+  });
+
+  $('#setting-test-conn')?.addEventListener('click', async () => {
+    const statusEl = $('#settings-test-status');
+    if (!statusEl || !window.HolygateDB) return;
+    statusEl.textContent = 'Testing connection to Supabase…';
+    statusEl.style.color = '#0284c7';
+
+    // Temporarily apply current inputs for the test
+    const oldCfg = window.HolygateDB.getConfig();
+    window.HolygateDB.saveConfig({
+      supabaseUrl: $('#setting-supabase-url').value.trim(),
+      supabaseKey: $('#setting-supabase-key').value.trim()
+    });
+
+    const res = await window.HolygateDB.testConnection();
+    if (res.connected) {
+      statusEl.textContent = '✓ Successfully connected to Supabase Cloud Database!';
+      statusEl.style.color = '#15803d';
+    } else {
+      statusEl.textContent = `✕ Connection failed: ${res.error || 'Unknown error'}`;
+      statusEl.style.color = '#b91c1c';
+      window.HolygateDB.saveConfig(oldCfg);
+    }
+  });
+
+  // Verify Admin Session on load
+  const existingSession = window.HolygateDB ? window.HolygateDB.checkSession() : null;
+  if (existingSession) {
+    showDashboard(existingSession.username);
+  } else {
+    api('/api/admin/session').then(data => showDashboard(data.username)).catch(() => showLogin());
+  }
 })();
 

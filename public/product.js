@@ -121,29 +121,42 @@
     let product = null;
     let allProducts = [];
 
-    try {
-      // First attempt single product endpoint
-      const directRes = await fetch(`/api/products/${encodeURIComponent(targetId)}`);
-      if (directRes.ok) {
-        const data = await directRes.json();
-        product = data.product;
+    if (window.HolygateDB) {
+      try {
+        product = await window.HolygateDB.getProductById(targetId);
+        allProducts = await window.HolygateDB.getProducts();
+      } catch (e) {
+        console.warn('HolygateDB product fetch error:', e);
       }
-    } catch (e) {
-      console.warn('Direct fetch failed, falling back to catalogue list:', e);
     }
 
-    try {
-      // Fetch full catalogue for fallback lookup and related products
-      const listRes = await fetch('/api/products');
-      if (listRes.ok) {
-        const data = await listRes.json();
-        allProducts = Array.isArray(data.products) ? data.products : [];
-        if (!product) {
-          product = allProducts.find(p => p.id === targetId || p.asin === targetId);
+    if (!product) {
+      try {
+        // First attempt single product endpoint
+        const directRes = await fetch(`/api/products/${encodeURIComponent(targetId)}`);
+        if (directRes.ok) {
+          const data = await directRes.json();
+          product = data.product;
         }
+      } catch (e) {
+        console.warn('Direct fetch failed, falling back to catalogue list:', e);
       }
-    } catch (e) {
-      console.warn('Catalogue list fetch error:', e);
+    }
+
+    if (!allProducts.length) {
+      try {
+        // Fetch full catalogue for fallback lookup and related products
+        const listRes = await fetch('/api/products');
+        if (listRes.ok) {
+          const data = await listRes.json();
+          allProducts = Array.isArray(data.products) ? data.products : [];
+          if (!product) {
+            product = allProducts.find(p => p.id === targetId || p.asin === targetId);
+          }
+        }
+      } catch (e) {
+        console.warn('Catalogue list fetch error:', e);
+      }
     }
 
     if (!product || !allProducts.length) {
