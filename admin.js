@@ -388,15 +388,6 @@
     };
   }
 
-  // Auto-fill demo credentials
-  $('#demo-creds-btn')?.addEventListener('click', () => {
-    $('#login-username').value = 'admin@holygate.in';
-    $('#login-password').value = 'HolyGateDemo#2026';
-    setLoginError('');
-    showToast('Demo credentials filled! Click Sign In ↗');
-    loginForm.querySelector('button[type="submit"]')?.focus();
-  });
-
   // Password visibility toggle
   $('#toggle-pw-btn')?.addEventListener('click', () => {
     const pw = $('#login-password');
@@ -437,13 +428,13 @@
     setLoginError('');
     const button = loginForm.querySelector('button[type="submit"]');
     button.disabled = true;
-    button.textContent = 'Signing in…';
+    button.textContent = 'Authenticating…';
     const userVal = $('#login-username').value.trim();
     const passVal = $('#login-password').value;
     try {
       if (window.HolygateDB) {
         const res = await window.HolygateDB.login(userVal, passVal);
-        showDashboard(res.username);
+        showDashboard(res.username || userVal);
         showToast('Signed in to HOLYGATE Catalogue.');
       } else {
         const data = await api('/api/admin/login', {
@@ -453,16 +444,11 @@
             password: passVal
           })
         });
-        showDashboard(data.username);
+        showDashboard(data.username || userVal);
         showToast('Signed in to HOLYGATE Catalogue.');
       }
     } catch (error) {
-      if (passVal === 'HolyGateDemo#2026') {
-        showDashboard(userVal || 'admin@holygate.in');
-        showToast('Signed in with demo access');
-      } else {
-        setLoginError(error.message);
-      }
+      setLoginError(error.message || 'Authentication failed. Please verify credentials.');
     } finally {
       button.disabled = false;
       button.innerHTML = 'Sign in <span>↗</span>';

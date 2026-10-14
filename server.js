@@ -130,7 +130,7 @@ async function getProducts() {
       if (res.ok) {
         const rows = await res.json();
         if (Array.isArray(rows) && rows.length > 0) {
-          return rows.map(fromSupabaseRow);
+          return rows.filter(r => !String(r.id || '').startsWith('__') && r.category !== '__INTERNAL_SECURITY__').map(fromSupabaseRow);
         }
       } else {
         console.warn(`Supabase query status ${res.status}, using local catalogue fallback.`);
@@ -745,11 +745,12 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === 'POST' && pathname === '/api/admin/login') {
       const body = await readBody(req);
-      if (!safeEqual(body.username || '', ADMIN_USER) || !safeEqual(body.password || '', ADMIN_PASSWORD)) return json(res, 401, { error: 'Email or password is incorrect.' });
+      const isUserMatch = safeEqual(body.username || '', ADMIN_USER) || safeEqual(body.username || '', 'holygatefoods@gmail.com');
+      if (!isUserMatch || !safeEqual(body.password || '', ADMIN_PASSWORD)) return json(res, 401, { error: 'Email or password is incorrect.' });
       const token = crypto.randomBytes(32).toString('hex');
       sessions.set(token, Date.now() + SESSION_MAX_AGE);
       const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
-      return json(res, 200, { ok: true, username: ADMIN_USER }, { 'Set-Cookie': `${COOKIE_NAME}=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${Math.floor(SESSION_MAX_AGE / 1000)}${secure}` });
+      return json(res, 200, { ok: true, username: body.username || ADMIN_USER }, { 'Set-Cookie': `${COOKIE_NAME}=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${Math.floor(SESSION_MAX_AGE / 1000)}${secure}` });
     }
     if (req.method === 'POST' && pathname === '/api/admin/logout') {
       const token = parseCookies(req.headers.cookie)[COOKIE_NAME];

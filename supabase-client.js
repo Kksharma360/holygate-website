@@ -14,15 +14,73 @@
   const DEFAULT_CONFIG = {
     supabaseUrl: 'https://vxjgofnglslmvbfagyrm.supabase.co',
     supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4amdvZm5nbHNsbXZiZmFneXJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4ODgwNDEsImV4cCI6MjEwNzQ2NDA0MX0.vb4J35puBgrKQa_a8nSTO0CXCnbeaosKqMnzLpNfkBI',
-    adminUser: 'admin@holygate.in',
-    adminPassword: 'HolyGateDemo#2026'
+    adminUser: 'admin@holygate.in'
   };
+
+  const LOCKOUT_KEY = 'holygate_auth_lockout';
+
+  function getLockout() {
+    try {
+      const data = JSON.parse(localStorage.getItem(LOCKOUT_KEY) || '{}');
+      if (data && data.lockUntil && Date.now() < data.lockUntil) {
+        return data;
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function recordFailedAttempt(maxAttempts, lockMinutes) {
+    maxAttempts = Number(maxAttempts) || 5;
+    lockMinutes = Number(lockMinutes) || 5;
+    let data = { attempts: 0, lockUntil: 0 };
+    try {
+      data = JSON.parse(localStorage.getItem(LOCKOUT_KEY) || '{}') || data;
+    } catch (_) {}
+    data.attempts = (data.attempts || 0) + 1;
+    if (data.attempts >= maxAttempts) {
+      data.lockUntil = Date.now() + (lockMinutes * 60 * 1000);
+      data.attempts = 0;
+      localStorage.setItem(LOCKOUT_KEY, JSON.stringify(data));
+      return { locked: true, remainingSec: lockMinutes * 60, lockMinutes };
+    }
+    localStorage.setItem(LOCKOUT_KEY, JSON.stringify(data));
+    return { locked: false, remainingAttempts: maxAttempts - data.attempts };
+  }
+
+  function clearLockout() {
+    try {
+      localStorage.removeItem(LOCKOUT_KEY);
+    } catch (_) {}
+  }
+
+  async function computeSha256(text) {
+    if (window.crypto && window.crypto.subtle && typeof window.crypto.subtle.digest === 'function') {
+      const enc = new TextEncoder();
+      const data = enc.encode(text);
+      const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    throw new Error('Web Cryptography API (SHA-256) is required for secure authentication.');
+  }
+
+  function generateCryptographicToken() {
+    try {
+      if (window.crypto && window.crypto.getRandomValues) {
+        const arr = new Uint8Array(24);
+        window.crypto.getRandomValues(arr);
+        return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+    } catch (_) {}
+    return 'hg_sec_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+  }
 
   function getConfig() {
     try {
       const stored = localStorage.getItem(STORAGE_CONFIG_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
+        delete parsed.adminPassword;
         return { ...DEFAULT_CONFIG, ...parsed };
       }
     } catch (_) {}
@@ -215,7 +273,7 @@
       try {
         const rows = await supabaseRequest('products?select=*&order=created_at.desc');
         if (Array.isArray(rows) && rows.length > 0) {
-          return rows.map(fromSupabaseRow);
+          return rows.filter(r => !String(r.id || '').startsWith('__') && r.category !== '__INTERNAL_SECURITY__').map(fromSupabaseRow);
         }
       } catch (sbErr) {
         console.warn('Supabase fetch failed, falling back to local json:', sbErr.message);
@@ -227,7 +285,7 @@
         if (res.ok) {
           const data = await res.json();
           const items = Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : []);
-          return items;
+          return items.filter(r => !String(r.id || '').startsWith('__'));
         }
       } catch (jsonErr) {
         console.warn('Local products.json fallback failed:', jsonErr.message);
@@ -240,6 +298,7 @@
     async getProductById(id) {
       if (!id) return null;
       const target = String(id).trim();
+      if (target.startsWith('__')) return null;
 
       // Check local server
       const hasServer = await checkServerAvailable();
@@ -256,7 +315,7 @@
       // Direct Supabase lookup
       try {
         const rows = await supabaseRequest(`products?or=(id.eq.${encodeURIComponent(target)},asin.eq.${encodeURIComponent(target)})&select=*&limit=1`);
-        if (Array.isArray(rows) && rows.length > 0) {
+        if (Array.isArray(rows) && rows.length > 0 && !String(rows[0].id || '').startsWith('__')) {
           return fromSupabaseRow(rows[0]);
         }
       } catch (_) {}
@@ -268,6 +327,9 @@
 
     // Save/Upsert product to Supabase (works on GitHub Pages & localhost)
     async saveProduct(product) {
+      if (!this.checkSession()) {
+        throw new Error('Unauthorized action: Active administrator session required.');
+      }
       const row = toSupabaseRow(product);
 
       // Try local server if running
@@ -303,6 +365,9 @@
 
     // Delete product from Supabase
     async deleteProduct(id) {
+      if (!this.checkSession()) {
+        throw new Error('Unauthorized action: Active administrator session required.');
+      }
       if (!id) throw new Error('Product ID required for deletion');
 
       const hasServer = await checkServerAvailable();
@@ -321,6 +386,9 @@
 
     // Toggle featured state
     async toggleFeatured(id, featured) {
+      if (!this.checkSession()) {
+        throw new Error('Unauthorized action: Active administrator session required.');
+      }
       const hasServer = await checkServerAvailable();
       if (hasServer) {
         try {
@@ -470,30 +538,57 @@
       };
     },
 
-    // Session Management (works seamlessly on GitHub Pages)
+    // Session Management (works seamlessly on GitHub Pages & localhost)
     checkSession() {
-      // 1. Check localStorage for GitHub Pages / static
       try {
-        const stored = localStorage.getItem(STORAGE_SESSION_KEY);
-        if (stored) {
-          const sess = JSON.parse(stored);
-          // Session valid for 7 days
-          if (sess && sess.time && (Date.now() - sess.time < 7 * 24 * 60 * 60 * 1000)) {
-            return { username: sess.user || 'admin@holygate.in' };
-          }
+        const raw = sessionStorage.getItem(STORAGE_SESSION_KEY) || localStorage.getItem(STORAGE_SESSION_KEY);
+        if (!raw) return null;
+        const sess = JSON.parse(raw);
+        if (sess && sess.token && sess.expiresAt && Date.now() < sess.expiresAt) {
+          return { username: sess.user || 'admin@holygate.in', user: sess.user, token: sess.token };
         }
+        sessionStorage.removeItem(STORAGE_SESSION_KEY);
+        localStorage.removeItem(STORAGE_SESSION_KEY);
       } catch (_) {}
       return null;
     },
 
     async login(username, password) {
-      const cfg = getConfig();
       const u = String(username || '').trim().toLowerCase();
       const p = String(password || '');
 
-      // Check local server first if available
+      if (!u || !p) {
+        throw new Error('Please enter both admin email and password.');
+      }
+
+      // 1. Check rate-limit lockout
+      const activeLock = getLockout();
+      if (activeLock) {
+        const remainingSec = Math.ceil((activeLock.lockUntil - Date.now()) / 1000);
+        const mins = Math.max(1, Math.ceil(remainingSec / 60));
+        throw new Error(`Security lockout active due to repeated failed attempts. Please retry in ${mins} minute${mins > 1 ? 's' : ''}.`);
+      }
+
+      // 2. Fetch encrypted security vault record from Supabase Cloud
+      let vault = null;
+      try {
+        const rows = await supabaseRequest('products?id=eq.__holygate_security_vault__&select=*');
+        if (Array.isArray(rows) && rows.length > 0 && rows[0]) {
+          const row = rows[0];
+          if (row.description) {
+            try { vault = JSON.parse(row.description); } catch (_) {}
+          }
+          if (!vault && Array.isArray(row.highlights) && row.highlights[0]) {
+            try { vault = JSON.parse(row.highlights[0]); } catch (_) {}
+          }
+        }
+      } catch (err) {
+        console.warn('Supabase security vault lookup error:', err.message);
+      }
+
+      // If local server is running and direct vault query was not reachable, try local server route
       const hasServer = await checkServerAvailable();
-      if (hasServer) {
+      if (hasServer && !vault) {
         try {
           const res = await fetch('/api/admin/login', {
             method: 'POST',
@@ -502,28 +597,65 @@
           });
           if (res.ok) {
             const data = await res.json();
-            localStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify({ user: data.username, time: Date.now() }));
-            return { success: true, username: data.username };
+            clearLockout();
+            const token = generateCryptographicToken();
+            const session = {
+              token,
+              user: data.username || u,
+              issuedAt: Date.now(),
+              expiresAt: Date.now() + 12 * 3600 * 1000
+            };
+            sessionStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify(session));
+            localStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify(session));
+            return { success: true, username: data.username || u, token };
           }
         } catch (_) {}
       }
 
-      // Static / GitHub Pages authentication
-      if (u === cfg.adminUser.toLowerCase() && p === cfg.adminPassword) {
-        localStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify({ user: u, time: Date.now() }));
-        return { success: true, username: u };
+      if (!vault || !vault.password_hash || !vault.salt) {
+        throw new Error('Supabase Cloud Security Vault could not be contacted. Please verify internet connection.');
       }
 
-      // Also allow test password
-      if (p === 'HolyGateDemo#2026' || p === 'admin123') {
-        localStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify({ user: u || cfg.adminUser, time: Date.now() }));
-        return { success: true, username: u || cfg.adminUser };
+      // 3. Verify Email against authorized administrator list in Supabase Vault
+      const allowed = Array.isArray(vault.allowed_emails)
+        ? vault.allowed_emails.map(e => String(e).trim().toLowerCase())
+        : ['admin@holygate.in', 'holygatefoods@gmail.com'];
+
+      if (!allowed.includes(u)) {
+        const res = recordFailedAttempt(vault.max_failed_attempts || 5, vault.lockout_minutes || 5);
+        if (res.locked) {
+          throw new Error(`Maximum login attempts exceeded. Admin access locked for ${vault.lockout_minutes || 5} minutes.`);
+        }
+        throw new Error(`Invalid admin credentials. Access denied (${res.remainingAttempts} attempt${res.remainingAttempts === 1 ? '' : 's'} remaining).`);
       }
 
-      throw new Error('Invalid email or password. Use demo account or your configured password.');
+      // 4. Verify SHA-256 salted password hash against Supabase Vault
+      const computedHash = await computeSha256(vault.salt + p);
+      if (computedHash !== vault.password_hash) {
+        const res = recordFailedAttempt(vault.max_failed_attempts || 5, vault.lockout_minutes || 5);
+        if (res.locked) {
+          throw new Error(`Maximum login attempts exceeded. Admin access locked for ${vault.lockout_minutes || 5} minutes.`);
+        }
+        throw new Error(`Invalid admin credentials. Access denied (${res.remainingAttempts} attempt${res.remainingAttempts === 1 ? '' : 's'} remaining).`);
+      }
+
+      // 5. Successful authentication: issue cryptographically random session token
+      clearLockout();
+      const token = generateCryptographicToken();
+      const durationHours = Number(vault.session_duration_hours) || 12;
+      const session = {
+        token,
+        user: u,
+        issuedAt: Date.now(),
+        expiresAt: Date.now() + (durationHours * 3600 * 1000)
+      };
+      sessionStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify(session));
+      localStorage.setItem(STORAGE_SESSION_KEY, JSON.stringify(session));
+      return { success: true, username: u, token };
     },
 
     async logout() {
+      sessionStorage.removeItem(STORAGE_SESSION_KEY);
       localStorage.removeItem(STORAGE_SESSION_KEY);
       try {
         await fetch('/api/admin/logout', { method: 'POST', body: '{}' });
