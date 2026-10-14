@@ -327,51 +327,103 @@
     renderProducts();
   });
 
-  // Hero Banner Slider (Automatic continuous scrolling)
+  // Hero Banner Slider (Smooth sliding carousel animation)
   const slider = $('#hero-banner-slider');
-  if (slider) {
-    const slides = $$('.hero-slide', slider);
-    let currentIndex = 0;
-    let autoPlayTimer = null;
-    let touchStartX = 0;
+  const track = slider ? $('#hero-slider-track', slider) : null;
+  if (slider && track) {
+    const originalSlides = $$('.hero-slide', track);
+    const totalRealSlides = originalSlides.length;
 
-    function goToSlide(index) {
-      if (!slides.length) return;
-      currentIndex = (index + slides.length) % slides.length;
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('is-active', i === currentIndex);
-      });
-    }
+    if (totalRealSlides > 1) {
+      // Clone first and last slide for seamless infinite loop
+      const firstClone = originalSlides[0].cloneNode(true);
+      firstClone.classList.add('is-clone');
+      const lastClone = originalSlides[totalRealSlides - 1].cloneNode(true);
+      lastClone.classList.add('is-clone');
 
-    function nextSlide() { goToSlide(currentIndex + 1); }
-    function prevSlide() { goToSlide(currentIndex - 1); }
+      track.appendChild(firstClone);
+      track.insertBefore(lastClone, originalSlides[0]);
 
-    function startAutoPlay() {
-      stopAutoPlay();
-      autoPlayTimer = setInterval(nextSlide, 4000);
-    }
-    function stopAutoPlay() {
-      if (autoPlayTimer) { clearInterval(autoPlayTimer); autoPlayTimer = null; }
-    }
+      let currentIndex = 1;
+      let isTransitioning = false;
+      let autoPlayTimer = null;
+      let touchStartX = 0;
 
-    // Touch swipe support for mobile devices
-    slider.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    slider.addEventListener('touchend', e => {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diff = touchEndX - touchStartX;
-      if (Math.abs(diff) > 40) {
-        if (diff < 0) nextSlide(); else prevSlide();
-        startAutoPlay();
+      // Initial position
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(-100%)';
+
+      function slideTo(index, smooth = true) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentIndex = index;
+        if (smooth) {
+          track.style.transition = 'transform 0.65s cubic-bezier(0.25, 1, 0.5, 1)';
+        } else {
+          track.style.transition = 'none';
+        }
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
       }
-    }, { passive: true });
 
-    // Pause only when tab is hidden in background, resume when active
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) stopAutoPlay();
-      else startAutoPlay();
-    });
+      function nextSlide() {
+        slideTo(currentIndex + 1, true);
+      }
 
-    startAutoPlay();
+      function prevSlide() {
+        slideTo(currentIndex - 1, true);
+      }
+
+      track.addEventListener('transitionend', () => {
+        isTransitioning = false;
+        // If we reached the clone of the first slide at the very end
+        if (currentIndex === totalRealSlides + 1) {
+          track.style.transition = 'none';
+          currentIndex = 1;
+          track.style.transform = 'translateX(-100%)';
+        }
+        // If we reached the clone of the last slide at the very beginning
+        else if (currentIndex === 0) {
+          track.style.transition = 'none';
+          currentIndex = totalRealSlides;
+          track.style.transform = `translateX(-${totalRealSlides * 100}%)`;
+        }
+      });
+
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = setInterval(nextSlide, 3800);
+      }
+
+      function stopAutoPlay() {
+        if (autoPlayTimer) {
+          clearInterval(autoPlayTimer);
+          autoPlayTimer = null;
+        }
+      }
+
+      // Touch swipe support for mobile
+      slider.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      slider.addEventListener('touchend', e => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) nextSlide();
+          else prevSlide();
+          startAutoPlay();
+        }
+      }, { passive: true });
+
+      // Pause when tab is inactive, resume when active
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopAutoPlay();
+        else startAutoPlay();
+      });
+
+      startAutoPlay();
+    }
   }
 
   // Mobile navigation drawer toggle

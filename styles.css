@@ -3,10 +3,9 @@
 /* Hero */
 /* Hero Full Background Slider with Glass Card Content */
 .hero-unified-section{position:relative;width:100%;min-height:550px;height:clamp(540px,46vw,620px);background:#133c2a;overflow:hidden;border-bottom:1px solid rgba(22,78,55,.1);display:flex;align-items:flex-start}
-.hero-banner-slider{position:absolute;inset:0;width:100%;height:100%;z-index:1;user-select:none}
-.hero-slider-track{position:absolute;inset:0;width:100%;height:100%}
-.hero-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .65s cubic-bezier(.4,0,.2,1);background:#133c2a;pointer-events:none}
-.hero-slide.is-active{opacity:1;visibility:visible;pointer-events:auto}
+.hero-banner-slider{position:absolute;inset:0;width:100%;height:100%;z-index:1;user-select:none;overflow:hidden}
+.hero-slider-track{position:absolute;inset:0;width:100%;height:100%;display:flex;flex-direction:row;will-change:transform}
+.hero-slide{flex:0 0 100%;width:100%;height:100%;position:relative;opacity:1;visibility:visible;pointer-events:auto;flex-shrink:0}
 .hero-slide-main{width:100%;height:100%;object-fit:cover;object-position:right center;display:block}
 .hero-slider-scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(255,253,248,.48) 0%,rgba(255,253,248,.22) 36%,transparent 65%);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,1) 0%,rgba(0,0,0,.9) 38%,transparent 66%);mask-image:linear-gradient(90deg,rgba(0,0,0,1) 0%,rgba(0,0,0,.9) 38%,transparent 66%);pointer-events:none}
 .hero-unified-content{position:relative;z-index:3;width:100%;height:100%;display:flex;align-items:flex-start;pointer-events:none;padding:clamp(28px,3.8vw,48px) 0 32px}
