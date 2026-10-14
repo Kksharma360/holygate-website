@@ -613,7 +613,7 @@
       }
 
       if (!vault || !vault.password_hash || !vault.salt) {
-        throw new Error('Supabase Cloud Security Vault could not be contacted. Please verify internet connection.');
+        throw new Error('Security vault could not be contacted. Please verify internet connection.');
       }
 
       // 3. Verify Email against authorized administrator list in Supabase Vault
