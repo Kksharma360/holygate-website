@@ -140,15 +140,57 @@
     let product = null;
     let allProducts = [];
 
-    try {
-      const jsonRes = await fetch('./data/products.json');
-      if (jsonRes.ok) {
-        const data = await jsonRes.json();
-        allProducts = Array.isArray(data) ? data : (Array.isArray(data.products) ? data.products : []);
-        product = allProducts.find(p => p.id === targetId || p.asin === targetId);
+    if (window.HolygateDB) {
+      try {
+        product = await window.HolygateDB.getProductById(targetId);
+        allProducts = await window.HolygateDB.getProducts();
+      } catch (e) {
+        console.warn('HolygateDB product fetch error:', e);
       }
-    } catch (err) {
-      console.warn('Local json fetch failed:', err);
+    }
+
+    if (!product) {
+      try {
+        // First attempt single product endpoint
+        const directRes = await fetch(`/api/products/${encodeURIComponent(targetId)}`);
+        if (directRes.ok) {
+          const data = await directRes.json();
+          product = data.product;
+        }
+      } catch (e) {
+        console.warn('Direct fetch failed, falling back to catalogue list:', e);
+      }
+    }
+
+    if (!allProducts.length) {
+      try {
+        // Fetch full catalogue for fallback lookup and related products
+        const listRes = await fetch('/api/products');
+        if (listRes.ok) {
+          const data = await listRes.json();
+          allProducts = Array.isArray(data.products) ? data.products : [];
+          if (!product) {
+            product = allProducts.find(p => p.id === targetId || p.asin === targetId);
+          }
+        }
+      } catch (e) {
+        console.warn('Catalogue list fetch error:', e);
+      }
+    }
+
+    if (!product || !allProducts.length) {
+      try {
+        const jsonRes = await fetch('./data/products.json');
+        if (jsonRes.ok) {
+          const data = await jsonRes.json();
+          allProducts = Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : []);
+          if (!product) {
+            product = allProducts.find(p => p.id === targetId || p.asin === targetId);
+          }
+        }
+      } catch (err) {
+        console.warn('Local json fallback fetch failed:', err);
+      }
     }
 
     if (!product) {
@@ -160,8 +202,18 @@
       return;
     }
 
-    // Populate Page Meta & Breadcrumbs
-    document.title = `${product.title} — HOLYGATE`;
+    // Populate Page Meta, Canonical & Breadcrumbs
+    const pageTitle = `${product.title} — HOLYGATE Foods | Buy Online`;
+    document.title = pageTitle;
+    const pageTitleEl = $('#page-title');
+    if (pageTitleEl) pageTitleEl.textContent = pageTitle;
+
+    const fullProductUrl = `https://holygatefoods.com/product.html?id=${encodeURIComponent(product.id)}`;
+    const canonicalLink = $('link[rel="canonical"]');
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', fullProductUrl);
+    }
+
     const crumbCategory = $('#crumb-category');
     if (crumbCategory) {
       crumbCategory.textContent = product.category || 'Store';
@@ -274,6 +326,82 @@
     $('#tbl-category').textContent = product.category || 'Food Staples';
     $('#tbl-pack-size').textContent = product.packSize || 'Standard';
     $('#tbl-asin').textContent = product.asin || 'N/A';
+
+    // Inject Dynamic SEO Meta Tags & OpenGraph
+    const metaDescription = (product.description && product.description.length > 25)
+      ? product.description.replace(/\s+/g, ' ').slice(0, 155).trim() + '...'
+      : `Buy authentic ${product.title} (${product.packSize || 'Pantry Staple'}) by HOLYGATE Foods online. 100% pure, natural, sortex cleaned. Direct Amazon India dispatch.`;
+
+    const setMetaTag = (selector, attr, value) => {
+      let el = $(selector);
+      if (el) el.setAttribute(attr, value);
+    };
+
+    setMetaTag('#meta-desc', 'content', metaDescription);
+    setMetaTag('#og-title', 'content', pageTitle);
+    setMetaTag('#og-desc', 'content', metaDescription);
+    setMetaTag('#og-url', 'content', fullProductUrl);
+    setMetaTag('#tw-title', 'content', pageTitle);
+    setMetaTag('#tw-desc', 'content', metaDescription);
+
+    const absImg = primaryImg.startsWith('http')
+      ? primaryImg
+      : `https://holygatefoods.com/${primaryImg.replace(/^\.\//, '')}`;
+    setMetaTag('#og-image', 'content', absImg);
+    setMetaTag('#tw-image', 'content', absImg);
+
+    // Inject Schema.org Product Structured Data
+    try {
+      const cleanPrice = product.offerPrice ? parseFloat(String(product.offerPrice).replace(/[^\d.]/g, '')) : null;
+      const numRating = parseFloat(pdpRating.score) || 4.4;
+      const numReviews = parseInt(String(pdpRating.count).replace(/[^\d]/g, ''), 10) || 35;
+
+      const productSchema = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product.title,
+        "image": [absImg],
+        "description": product.description || `${product.title} by HOLYGATE Foods. 100% pure and unadulterated kitchen staple.`,
+        "sku": product.asin || product.id,
+        "mpn": product.id,
+        "brand": {
+          "@type": "Brand",
+          "name": "HOLYGATE Foods"
+        },
+        "category": product.category || "Grocery & Gourmet Foods",
+        "offers": {
+          "@type": "Offer",
+          "url": amazonLink,
+          "priceCurrency": "INR",
+          "price": cleanPrice && !isNaN(cleanPrice) ? cleanPrice : "299",
+          "priceValidUntil": "2027-12-31",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/InStock",
+          "seller": {
+            "@type": "Organization",
+            "name": "HOLYGATE Foods"
+          }
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": numRating,
+          "bestRating": "5",
+          "worstRating": "1",
+          "reviewCount": numReviews
+        }
+      };
+
+      let schemaTag = $('#pdp-schema-json');
+      if (!schemaTag) {
+        schemaTag = document.createElement('script');
+        schemaTag.type = 'application/ld+json';
+        schemaTag.id = 'pdp-schema-json';
+        document.head.appendChild(schemaTag);
+      }
+      schemaTag.textContent = JSON.stringify(productSchema, null, 2);
+    } catch (schemaErr) {
+      console.warn('Could not inject Product JSON-LD schema:', schemaErr);
+    }
 
     // Show Main Content and Extended Section
     loadingEl.hidden = true;

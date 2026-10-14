@@ -1,18 +1,858 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://holygatefoods.com/</loc>
+    <lastmod>2026-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://holygatefoods.com/about.html</loc>
+    <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://holygatefoods.com/contact.html</loc>
+    <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/?category=Pulses%20%26%20Lentils</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/?category=Atta%20%26%20Flour</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/?category=Grains</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/?category=Sugar</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/?category=Seeds</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/?category=Others</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f917ym5z</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71bi6Y7jlUL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Whole Cinnamon Sticks, Dalchini, 100g, Natural Indian Spice</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f91dszrb</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71F1zuelJ4L._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Fennel Seeds (Saunf), 250g, Pure Whole Spices, Aromatic</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hcvcd4jx</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Qyv9Gfh4L._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Haldi Powder 500 g (Pack of 2 x 250 g) | Premium Turmeric Powder | 100% Natural | Pure &amp; Authentic | Rich Aroma &amp; Natural Colour | Hygienically Packed | No Artificial Colours | Kitchen Essential</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9qf6chb</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/7169Yk-MqjL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE� Gond Katira (Edible Gum) | 200gm | Natural Cooling Ayurvedic Herb for Summer Drinks, Falooda, and Herbal Remedies</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f91xhns1</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/81-KUaW8tBL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE California Raw Almonds, 250g, Pure Natural Badam, Vacuum Sealed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f91svbzv</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71db1ASShOL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Whole Cashew Nuts, 250g, Natural Unsalted, W240 Grade</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f91gbd6x</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/717wjH2xHkL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Khus Khus, Pure Poppy Seeds, 100g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f91w9bmz</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/81c3rtApwqL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Chia Seeds, 250g, Raw and Unroasted, Natural Superfood Rich in Omega-3 and Fibre</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0fbgdfj4d</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/81ZB1GWU6oL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Raw Peanuts 500g | Unroasted, Natural &amp; Protein-Rich | Whole Groundnuts for Snacking, Cooking &amp; Baking</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hhjkslqb</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71JXMsYmtZL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Mix Dal 2 Kg (Pack of 2 x 1 Kg) | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed | HGMD-2-11</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hhfcfgwh</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71JXMsYmtZL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Mix Dal (Mixed Lentils) 1 kg | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed | HGMD-10</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hcc6hptj</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71zPCK9B03L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Safed Lobia 2kg (Pack of 2 x 1kg) | Rich in Protein &amp; Fibre | 100% Natural | HGSL1</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg7kqcz</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71vj2fMdNkL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Safed Matar (White Peas) 500 g | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbql4g8d</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71bwzU9dPYL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kabuli Chana (Bold) 1 Kg | Premium Chickpeas | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hglrpfhs</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71mCks7GxRL._AC_SL1500_.jpg</image:loc>
+      <image:title>HolyGate 100% Pure &amp; Natural Raw Whole Cashew Nuts (Kaju) 1 Kg – Value Pack | High Protein &amp; Healthy Fats, Zero Cholesterol, Crunchy Superfood for Daily Snacking &amp; Cooking</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqg6pjbb</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71VtzCuTt+L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Malka Masoor Red (Whole) 1Kg | Premium Quality Whole Red Lentils | High in Protein &amp; Fiber | Unpolished | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f917kxdy</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/81BzErIRGQL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Cumin Seeds, 250g, Pure Natural Whole Jeera, Indian Spice</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hctx9lfw</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71e3t8rVbnL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Dalia 1 Kg (Pack of 2 x 500 g) | Premium Broken Wheat | Rich in Dietary Fiber | 100% Natural | Hygienically Packed | No Artificial Colours | Healthy Breakfast &amp; Everyday Cooking</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f8hmps7g</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71t70+DBdEL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Malka Masoor Red Lentils, Whole, 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f91d6rm3</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71cacF4CN3L._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Green Cardamom (Elaichi) 50g | Pure &amp; Natural Whole Spices</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg8r1jb</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71r64gj9qRL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kabuli Chana (Bold) 500 g | Premium Chickpeas | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg82rw4</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71iqv9lqExL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Rajma Chitra 500 g | Premium Kidney Beans | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqltvpsq</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/710QGrGb9zL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kali Masoor Sabut 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbqtqd2s</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71pcrd7L60L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Safed Matar (White Peas) 1 Kg | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hcp9gyxt</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71YCFZW4QEL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Chana Sattu 500 g | Premium Roasted Bengal Gram Flour | High Protein &amp; Rich in Dietary Fiber | 100% Natural | No Added Preservatives | Hygienically Packed | Ideal for Sattu Drink, Paratha &amp; Healthy Recipes</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hcp8zk7n</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71TConrjlPL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Oats Flour 500 g | 100% Whole Grain Oat Flour | Rich in Dietary Fiber | High Protein | Finely Milled | Hygienically Packed | Ideal for Roti, Pancakes, Cookies &amp; Baking | HGOF-9</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbx88bn6</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61KhxEvGu5L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Desi Khand 4 Kg (Pack of 4 x 1 Kg) | Unprocessed Raw Cane Sugar | Traditional Khandsari Sugar | Natural Sweetener | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hgm9ztj1</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61kJlHYUpaL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Desi Khand 5 Kg (Pack of 5 x 1 Kg) | Unprocessed Raw Cane Sugar | Traditional Khandsari Sugar | Natural Sweetener | Hygienically Packed | HGDK-10</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbx5bb4f</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61KhxEvGu5L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Desi Khand 3 Kg (Pack of 3 x 1 Kg) | Unprocessed Raw Cane Sugar | Traditional Khandsari Sugar | Natural Sweetener | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbvvygfn</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61KhxEvGu5L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Desi Khand 2 Kg (Pack of 2 x 1 Kg) | Unprocessed Raw Cane Sugar | Traditional Khandsari Sugar | Natural Sweetener | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hglzl5pf</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/616d2dYJ6XL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Refined Sulphur-less Sugar 5 Kg (Pack of 5 x 1 Kg) | Pure &amp; Hygienic | Fine Crystal Sugar | Premium Quality | HGSS-9</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbqp3q5w</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61KhxEvGu5L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Desi Khand 1 Kg | Unprocessed Raw Cane Sugar | Traditional Khandsari Sugar | Natural Sweetener | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbx6llr7</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/617G1nzq3mL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Refined Sulphur-less Sugar 3 Kg (Pack of 3 x 1 Kg) | Pure &amp; Hygienic | Fine Crystal Sugar | Premium Quality</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbx6frgq</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/617G1nzq3mL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Refined Sulphur-less Sugar 4 Kg (Pack of 4 x 1 Kg) | Pure &amp; Hygienic | Fine Crystal Sugar | Premium Quality</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbqpghk5</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/617G1nzq3mL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Refined Sulphur-less Sugar 1 Kg | Pure &amp; Hygienic | Fine Crystal Sugar | Premium Quality</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbx8k46p</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/617G1nzq3mL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Refined Sulphur-less Sugar 2 Kg (Pack of 2 x 1 Kg) | Pure &amp; Hygienic | Fine Crystal Sugar | Premium Quality</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fpv6y4</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71ZCuAhMSDL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Gold) 5kg| Unpolished Pulses | Protein-Rich | 5Kg(1Kg*5pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg81g6k</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71+V2c69pyL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Moong Sabut (Green) 500 g | Whole Green Gram | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fqdgct</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/715W6okT9cL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Diamond) 5Kg| Unpolished Pulses | Protein-Rich | 5Kg(1Kg*5pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hhjhf5vg</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71JXMsYmtZL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Mix Dal 5 Kg (Pack of 5 x 1 Kg) | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fs8xmh</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71ZCuAhMSDL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Gold) 1Kg| Unpolished Pulses | Protein-Rich | 1 kg Pack</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fsnpq1</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71XYo3URIrL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Classic) 1Kg| Unpolished Pulses | Protein-Rich | 1 kg Pack</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fv5zpg</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Qml0QiATL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Arhar/Toor Dal (Regular) 5Kg | Natural &amp; Protein-Rich | Hygienically Packed 5kg(1kg*5pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlxfwyd</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71wkix8M6hL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Mashri Dal (Red Masoor Split) 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9frgn5z</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71ZCuAhMSDL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Gold) 2Kg | Unpolished Pulses | Protein-Rich | 2Kg(1Kg*2pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9ft1rr2</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Qml0QiATL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Arhar/Toor Dal (Regular) 1 kg | Natural &amp; Protein-Rich | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fr8plr</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71XYo3URIrL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Classic) 5Kg| Unpolished Pulses | Protein-Rich | 5Kg(1Kg*5pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hdctwgtm</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/715W6okT9cL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Arhar/Toor Dal (Diamond) 1Kg| Unpolished | Quality Pulses | Protein-Rich | 1 kg Pack | HGAD-7</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlyvhnm</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71uA8pScTrL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Chana Dal 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg8b6vr</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71mckln2EML._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Urad Dal Dhuli 500 grams</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0fdr8h1ry</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71nF7dP0sqL._AC_SL1500_.jpg</image:loc>
+      <image:title>HolyGate Sabudana (500 gm) | Pure &amp; Natural Tapioca Pearls | Hygienically Packed | Ideal for Khichdi, Vrat, Fasting &amp; Snacks</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f99zvqlc</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61XaeT2dVQL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Basmati Rice Classic 2Kg, Long-Grain, Natural and Aromatic, (1Kg*2 pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f8qxzd9b</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61XaeT2dVQL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Biryani Basmati Rice 5kg, Premium Long-Grain Aged Rice, Pack of 1Kg*5</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hhz94p6d</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71a8lvbOPmL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Sona Masoori Rice 1kg | 100% Pure &amp; Natural Unpolished Grains | Lightweight, Aromatic &amp; Easy to Digest | Preservative-Free Daily Staple</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hj8qwm11</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71a8lvbOPmL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Premium Sona Masoori Rice 2 kg | Aged South Indian Medium Grain Rice | Light, Fluffy &amp; Non-Sticky Chawal | Daily Cooking Staple for Sambar Rice, Khichdi &amp; Pulav</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg7bsrm</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71t0hUlLt8L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Chana Dal 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlsqmgj</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71o5rPHS2tL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Urad Dal Dhuli 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hcvybnhl</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Gc-BDvVxL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Unpolished Moong Dal Chilka 1 Kg | Split Green Gram with Skin | Rich in Protein &amp; Dietary Fiber | 100% Natural | Unpolished | Hygienically Packed | Premium Quality | HGMC-4</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg8nzj2</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71gUqH2j+CL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Urad Chilka Dal 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f8j5vsw8</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61XaeT2dVQL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Basmati Rice Classic � Long-Grain Aged Rice � 100% Natural, Aromatic &amp; Fluffy (1kg Pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9tplbhx</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61S1PDhTaQL._AC_SL1500_.jpg</image:loc>
+      <image:title>HOLYGATE Soya Chunks 1Kg | Pure &amp; Natural | High Protein, 100% Vegetarian, Non-GMO, Cholesterol-Free Soya Nuggets 1Kg(Pack of 4 * 250g)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg8hlst</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/715eV2FkNLL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Arhar/Toor Dal (Diamond) 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg6c67p</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71yPAfnSXSL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Safed Lobia 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f8hvj526</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Q5csSsARL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Mix Dal, 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg7wdf4</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Da-wGh-BL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kala Chana 500 g | Premium Bengal Gram | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg7z8j1</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71LiR2qof0L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Urad Sabut 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlx2lp5</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/719fggxXh3L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Moong Dal Dhuli 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg8g1hw</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71txC0I-X7L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Mashri Dal (Red Masoor Split) 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0hbqkvq5n</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71zPCK9B03L._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Safed Lobia 1 Kg | White Cowpea | High Protein | Rich in Fiber | No Artificial Polish | Hygienically Packed</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlwsyz7</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/711S876yqQL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kala Chana 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg7588s</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71u2c3kOtXL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Moong Dal Dhuli 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0f9fw8xgh</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71Qml0QiATL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Arhar/Toor Dal (Regular) 2kg | Natural &amp; Protein-Rich | Hygienically Packed 2kg(1kg*2pack)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctfxjzj1</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71F0pzG10bL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kali Masoor Sabut 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg7y1tp</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71K6dIiX4YL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Moong Dal Chilka 500g</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0ctg8k489</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/61SuePPWfgL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kabuli Chana (Medium) 500 grams</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlwzcx5</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71ulyhimIsL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Moong Sabut (Green) 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqg69q6t</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71GAYij2uoL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Urad Chilka Dal 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlvstcy</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71CzYFJpYwL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Urad Sabut 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqg8hlmj</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/71UQ2M+4XEL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Rajma Chitra 1Kg</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://holygatefoods.com/product.html?id=hg-b0cqlw7kfy</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://m.media-amazon.com/images/I/716Y8pPq9LL._AC_SL1500_.jpg</image:loc>
+      <image:title>Holygate Unpolished Kabuli Chana (Medium) 1Kg</image:title>
+    </image:image>
   </url>
 </urlset>
