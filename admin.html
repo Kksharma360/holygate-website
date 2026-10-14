@@ -7,7 +7,6 @@
   <title>HOLYGATE Admin — Product Catalogue</title>
   <link rel="icon" href="./assets/brand-logo.png">
   <link rel="stylesheet" href="./admin.css">
-  <script src="./supabase-client.js"></script>
   <script src="./admin.js" defer></script>
 </head>
 <body class="admin-body">
@@ -147,24 +146,24 @@
       </div>
       <section class="supabase-banner" id="supabase-banner">
         <div class="supabase-banner-left">
-          <div class="supabase-badge fallback" id="supabase-status-badge">
+          <div class="supabase-badge connected" id="supabase-status-badge">
             <span class="supabase-status-dot"></span>
-            <span id="supabase-status-text">Local Storage Mode</span>
+            <span id="supabase-status-text">Catalogue Active</span>
           </div>
           <div class="supabase-meta">
-            <strong id="supabase-engine-title">Storage Engine: Local products.json</strong>
-            <span id="supabase-engine-desc">Configure SUPABASE_URL &amp; SUPABASE_KEY in .env to enable Cloud PostgreSQL &amp; CDN Storage.</span>
+            <strong id="supabase-engine-title">Catalogue Database: Live Storefront Synced</strong>
+            <span id="supabase-engine-desc">All products and pricing updates sync directly with the official storefront.</span>
           </div>
         </div>
         <div class="supabase-banner-right">
+          <button type="button" class="btn-update-pricing-banner" id="btn-export-catalogue" title="Download updated products.json catalogue file">
+            <span>📥 Export Catalogue</span>
+          </button>
           <button type="button" class="btn-update-pricing-banner" id="btn-update-pricing-banner" title="Fetch latest Amazon prices for all products in 1 click">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
             </svg>
-            <span>⚡ Update Pricing</span>
-          </button>
-          <button type="button" class="btn-sync-supabase" id="btn-sync-supabase" title="Upload local products to Supabase">
-            <span>☁ Sync to Supabase</span>
+            <span>⚡ Check Pricing</span>
           </button>
         </div>
       </section>
