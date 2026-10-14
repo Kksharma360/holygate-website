@@ -138,9 +138,35 @@
     document.body.classList.remove('modal-open');
   }
 
+  function matchCategory(productCat = '', targetCat = '') {
+    if (!productCat || !targetCat) return false;
+    const a = String(productCat).trim().toLowerCase();
+    const b = String(targetCat).trim().toLowerCase();
+    if (a === b) return true;
+    if ((b === 'grains' || b.includes('grain')) && (a === 'grains' || a.includes('grain') || a.includes('rice'))) return true;
+    if ((b.includes('pulse') || b.includes('lentil') || b.includes('dal')) && (a.includes('pulse') || a.includes('lentil') || a.includes('dal'))) return true;
+    if ((b.includes('atta') || b.includes('flour')) && (a.includes('atta') || a.includes('flour'))) return true;
+    if (b.includes('sugar') && a.includes('sugar')) return true;
+    if (b.includes('seed') && a.includes('seed')) return true;
+    if (b.includes('other') && a.includes('other')) return true;
+    return false;
+  }
+
+  function scrollToProducts() {
+    const target = document.getElementById('bestsellers') || document.getElementById('product-grid');
+    if (!target) return;
+    const header = document.querySelector('.site-header');
+    const headerHeight = header ? header.offsetHeight : 90;
+    const targetY = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 14;
+    window.scrollTo({
+      top: Math.max(0, targetY),
+      behavior: 'smooth'
+    });
+  }
+
   function getFilteredProducts() {
     let products = [...allProducts];
-    if (activeCategory) products = products.filter(p => p.category === activeCategory);
+    if (activeCategory) products = products.filter(p => matchCategory(p.category, activeCategory));
     if (activeSearch) {
       const query = activeSearch.toLowerCase();
       products = products.filter(p => [p.title, p.category, p.description, p.brand, p.packSize, ...(p.highlights || [])].join(' ').toLowerCase().includes(query));
@@ -158,8 +184,8 @@
     emptyState.hidden = products.length > 0;
     productGrid.hidden = products.length === 0;
     clearFilter.hidden = !(activeCategory || activeSearch);
-    if (activeSearch) filterLabel.textContent = `Search results for “${activeSearch}”`;
-    else if (activeCategory) filterLabel.textContent = `Showing ${activeCategory}`;
+    if (activeSearch) filterLabel.textContent = `Search results for “${activeSearch}” (${products.length})`;
+    else if (activeCategory) filterLabel.textContent = `Showing ${activeCategory} (${products.length} products)`;
     else filterLabel.textContent = 'Showing our featured picks';
     $$('img', productGrid).forEach(img => {
       img.addEventListener('error', () => {
@@ -171,11 +197,24 @@
       }, { once: true });
     });
   }
-  function setCategory(category) {
+  function setCategory(category, shouldScroll = true) {
     activeCategory = category || '';
-    $$('.category-card').forEach(card => card.classList.toggle('is-selected', card.dataset.category === activeCategory));
+    $$('.category-card').forEach(card => {
+      card.classList.toggle('is-selected', Boolean(activeCategory && matchCategory(card.dataset.category, activeCategory)));
+    });
+    $$('.main-nav .nav-inner a').forEach(a => {
+      if (a.dataset.navCategory) {
+        a.classList.toggle('nav-active', Boolean(activeCategory && matchCategory(a.dataset.navCategory, activeCategory)));
+      } else if (a.getAttribute('href') === './' || a.getAttribute('href') === '/' || a.textContent.trim() === 'Home') {
+        a.classList.toggle('nav-active', !activeCategory);
+      }
+    });
     renderProducts();
-    $('#bestsellers')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (shouldScroll && activeCategory) {
+      setTimeout(() => {
+        scrollToProducts();
+      }, 60);
+    }
   }
   async function loadProducts() {
     if (!productGrid) return;
@@ -200,7 +239,15 @@
       }
     }
     updateDisclosures();
-    renderProducts();
+
+    // Check if category is passed via URL query
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCategory = urlParams.get('category');
+    if (initialCategory) {
+      setCategory(initialCategory, true);
+    } else {
+      renderProducts();
+    }
   }
 
   $('#search-form')?.addEventListener('submit', event => {
@@ -209,7 +256,7 @@
     activeCategory = '';
     $$('.category-card').forEach(card => card.classList.remove('is-selected'));
     renderProducts();
-    $('#bestsellers')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToProducts();
   });
   searchInput?.addEventListener('input', () => {
     const next = searchInput.value.trim();
@@ -218,18 +265,26 @@
   $$('.category-card').forEach(card => card.addEventListener('click', () => {
     activeSearch = '';
     if (searchInput) searchInput.value = '';
-    setCategory(activeCategory === card.dataset.category ? '' : card.dataset.category);
+    setCategory(activeCategory === card.dataset.category ? '' : card.dataset.category, true);
   }));
-  $$('[data-nav-category]').forEach(link => link.addEventListener('click', () => {
+  $$('[data-nav-category]').forEach(link => link.addEventListener('click', (event) => {
+    event.preventDefault();
     activeSearch = '';
     if (searchInput) searchInput.value = '';
-    setCategory(link.dataset.navCategory);
+    setCategory(link.dataset.navCategory, true);
   }));
   clearFilter?.addEventListener('click', () => {
     activeCategory = '';
     activeSearch = '';
     if (searchInput) searchInput.value = '';
     $$('.category-card').forEach(card => card.classList.remove('is-selected'));
+    $$('.main-nav .nav-inner a').forEach(a => {
+      if (a.getAttribute('href') === './' || a.getAttribute('href') === '/' || a.textContent.trim() === 'Home') {
+        a.classList.add('nav-active');
+      } else {
+        a.classList.remove('nav-active');
+      }
+    });
     renderProducts();
   });
   $('#view-all-products')?.addEventListener('click', event => {
@@ -238,8 +293,15 @@
     activeSearch = '';
     if (searchInput) searchInput.value = '';
     $$('.category-card').forEach(card => card.classList.remove('is-selected'));
+    $$('.main-nav .nav-inner a').forEach(a => {
+      if (a.getAttribute('href') === './' || a.getAttribute('href') === '/' || a.textContent.trim() === 'Home') {
+        a.classList.add('nav-active');
+      } else {
+        a.classList.remove('nav-active');
+      }
+    });
     renderProducts();
-    $('#shop-range')?.scrollIntoView({ behavior: 'smooth' });
+    scrollToProducts();
   });
   $('#product-sort')?.addEventListener('change', renderProducts);
   productGrid?.addEventListener('click', event => {
