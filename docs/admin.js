@@ -132,6 +132,9 @@
   async function logout() {
     sessionStorage.removeItem(STORAGE_SESSION_KEY);
     localStorage.removeItem(STORAGE_SESSION_KEY);
+    if (window.HolygateDB) {
+      try { await window.HolygateDB.logout(); } catch (_) {}
+    }
     try {
       await api('/api/admin/logout', { method: 'POST', body: '{}' });
     } catch (_) {}
@@ -489,6 +492,7 @@
         const session = {
           token,
           username: authenticatedUser,
+          user: authenticatedUser,
           issuedAt: Date.now(),
           expiresAt: Date.now() + (12 * 3600 * 1000)
         };
@@ -766,9 +770,17 @@
   // Verify Admin Session on load
   const existingSession = checkAdminSession() || (window.HolygateDB ? window.HolygateDB.checkSession() : null);
   if (existingSession) {
-    showDashboard(existingSession.username);
+    showDashboard(existingSession.username || existingSession.user);
   } else {
-    api('/api/admin/session').then(data => showDashboard(data.username)).catch(() => showLogin());
+    const isStatic = window.location.protocol === 'file:' ||
+                     window.location.hostname.includes('netlify') ||
+                     window.location.hostname.includes('github.io') ||
+                     window.location.hostname.includes('holygatefoods.com');
+    if (!isStatic) {
+      api('/api/admin/session').then(data => showDashboard(data.username)).catch(() => showLogin());
+    } else {
+      showLogin();
+    }
   }
 })();
 

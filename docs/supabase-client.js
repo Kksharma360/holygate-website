@@ -104,6 +104,7 @@
     return host.includes('github.io') ||
            host.includes('netlify.app') ||
            host.includes('vercel.app') ||
+           host.includes('holygatefoods.com') ||
            window.location.protocol === 'file:';
   }
 
@@ -220,11 +221,28 @@
     return match ? match[1].toUpperCase() : null;
   }
 
+  // Extract ASIN, Slug Title, and Pack Size from Amazon URL
+  function extractAmazonDetails(rawUrl) {
+    if (!rawUrl) return { asin: null, slugTitle: '', packSize: '' };
+    const asin = extractAsin(rawUrl);
+    let slugTitle = '';
+    let packSize = '';
+    const str = String(rawUrl).trim();
+    const slugMatch = str.match(/amazon\.[a-z.]+\/([^/]+)\/(?:dp|gp\/product|gp\/aw\/d)\//i);
+    if (slugMatch && slugMatch[1] && !slugMatch[1].startsWith('gp') && !slugMatch[1].startsWith('dp')) {
+      slugTitle = decodeURIComponent(slugMatch[1]).replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+      const packM = slugTitle.match(/\b(\d+(?:\.\d+)?\s*(?:kg|g|gm|gms|l|ml|pack|pack\s*of\s*\d+))\b/i);
+      if (packM) packSize = packM[1];
+    }
+    return { asin, slugTitle, packSize };
+  }
+
   const HolygateDB = {
     getConfig,
     saveConfig,
     isStaticHosting,
     extractAsin,
+    extractAmazonDetails,
 
     // Test Supabase connection
     async testConnection() {
@@ -432,12 +450,17 @@
 
     // Client-side & hybrid Amazon product import
     async importAmazon(amazonUrl, requestedCategory = 'Pulses & Lentils') {
-      const asin = extractAsin(amazonUrl);
+      const { asin, slugTitle, packSize: detectedPackSize } = extractAmazonDetails(amazonUrl);
       if (!asin) {
         throw new Error('Could not find a 10-character ASIN in that URL. Paste a valid Amazon.in link.');
       }
       const canonicalUrl = `https://www.amazon.in/dp/${asin}`;
       const cdnImage = `https://m.media-amazon.com/images/P/${asin}.01._SCLZZZZZZZ_SX600_.jpg`;
+      const fallbackGallery = [
+        cdnImage,
+        `https://m.media-amazon.com/images/P/${asin}.01.PT01._SCLZZZZZZZ_SX600_.jpg`,
+        `https://m.media-amazon.com/images/P/${asin}.01.PT02._SCLZZZZZZZ_SX600_.jpg`
+      ];
 
       // 1. If local server is running, use its full server-side parser
       const hasServer = await checkServerAvailable();
@@ -456,16 +479,16 @@
       }
 
       // 2. Client-side fetch via free CORS proxy for live Amazon page details
-      let scrapedTitle = '';
+      let scrapedTitle = slugTitle || '';
       let scrapedPrice = '';
       let scrapedBrand = 'HOLYGATE';
-      let scrapedGallery = [cdnImage];
+      let scrapedGallery = [...fallbackGallery];
       let scrapedHighlights = [];
 
       try {
         const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(canonicalUrl)}`;
         const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 6000);
+        const tid = setTimeout(() => ctrl.abort(), 4000);
         const resp = await fetch(proxyUrl, { signal: ctrl.signal });
         clearTimeout(tid);
         if (resp.ok) {
@@ -518,7 +541,7 @@
         title: finalTitle,
         category: requestedCategory,
         brand: scrapedBrand,
-        packSize: '',
+        packSize: detectedPackSize || '',
         offerPrice: scrapedPrice,
         image: scrapedGallery[0] || cdnImage,
         gallery: scrapedGallery.length ? scrapedGallery : [cdnImage],
@@ -534,7 +557,7 @@
 
       return {
         product: finalProduct,
-        warnings: scrapedTitle ? [] : ['Amazon link recognized! Please confirm product title & pack size before publishing.']
+        warnings: scrapedTitle ? [] : ['Amazon product recognized! High-res images and link loaded. Please verify title and price before publishing.']
       };
     },
 
@@ -545,7 +568,8 @@
         if (!raw) return null;
         const sess = JSON.parse(raw);
         if (sess && sess.token && sess.expiresAt && Date.now() < sess.expiresAt) {
-          return { username: sess.user || 'admin@holygate.in', user: sess.user, token: sess.token };
+          const u = sess.username || sess.user || 'admin@holygate.in';
+          return { username: u, user: u, token: sess.token };
         }
         sessionStorage.removeItem(STORAGE_SESSION_KEY);
         localStorage.removeItem(STORAGE_SESSION_KEY);
